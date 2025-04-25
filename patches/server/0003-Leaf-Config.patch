@@ -61,10 +61,10 @@ index 4efbd656c57672b84c5d90f987bd57c67fc0c550..05f805c7e7a6ff6d40b9f86aaac5362a
              long tickSection = Util.getNanos();
 diff --git a/src/main/java/org/dreeam/leaf/config/ConfigModules.java b/src/main/java/org/dreeam/leaf/config/ConfigModules.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..a4f2e6a2d0ac0d1a4d346af7bd82276105ff0a79
+index 0000000000000000000000000000000000000000..bd291872e25ed51ca0c88dd86de6868b98069e36
 --- /dev/null
 +++ b/src/main/java/org/dreeam/leaf/config/ConfigModules.java
-@@ -0,0 +1,71 @@
+@@ -0,0 +1,78 @@
 +package org.dreeam.leaf.config;
 +
 +import org.dreeam.leaf.config.annotations.Experimental;
@@ -113,6 +113,13 @@ index 0000000000000000000000000000000000000000..a4f2e6a2d0ac0d1a4d346af7bd822761
 +    public static void loadAfterBootstrap() {
 +        for (ConfigModules module : MODULES) {
 +            module.onPostLoaded();
++        }
++
++        // Save config to disk
++        try {
++            LeafConfig.config().saveConfig();
++        } catch (Exception e) {
++            LeafConfig.LOGGER.error("Failed to save config file!", e);
 +        }
 +    }
 +
@@ -170,10 +177,10 @@ index 0000000000000000000000000000000000000000..7d99f0711c6b4f298dd296c26c11dd9d
 +}
 diff --git a/src/main/java/org/dreeam/leaf/config/LeafConfig.java b/src/main/java/org/dreeam/leaf/config/LeafConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..94143d1129a571d6a44e835211779e93c1ffc0bd
+index 0000000000000000000000000000000000000000..a8778ba40e31f2f366696766672c0e4ee9780698
 --- /dev/null
 +++ b/src/main/java/org/dreeam/leaf/config/LeafConfig.java
-@@ -0,0 +1,270 @@
+@@ -0,0 +1,269 @@
 +package org.dreeam.leaf.config;
 +
 +import io.papermc.paper.configuration.GlobalConfiguration;
@@ -223,6 +230,7 @@ index 0000000000000000000000000000000000000000..94143d1129a571d6a44e835211779e93
 +
 +    /* Load & Reload */
 +
++    // Reload config (sync)
 +    public static void reload() {
 +        try {
 +            long begin = System.nanoTime();
@@ -242,6 +250,7 @@ index 0000000000000000000000000000000000000000..94143d1129a571d6a44e835211779e93
 +        return new CompletableFuture<>();
 +    }
 +
++    // Init config
 +    public static void loadConfig() {
 +        try {
 +            long begin = System.nanoTime();
@@ -266,9 +275,6 @@ index 0000000000000000000000000000000000000000..94143d1129a571d6a44e835211779e93
 +
 +        // Load config modules
 +        ConfigModules.initModules();
-+
-+        // Save config to disk
-+        leafGlobalConfig.saveConfig();
 +    }
 +
 +    public static LeafGlobalConfig config() {

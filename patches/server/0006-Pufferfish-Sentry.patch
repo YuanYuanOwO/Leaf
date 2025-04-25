@@ -196,7 +196,7 @@ index 0000000000000000000000000000000000000000..1fc08518f9cc2b6840b5074f181aefc6
 +
 +}
 diff --git a/src/main/java/org/dreeam/leaf/config/LeafConfig.java b/src/main/java/org/dreeam/leaf/config/LeafConfig.java
-index 94143d1129a571d6a44e835211779e93c1ffc0bd..031750162e576b2c99cdf87fac059cac310c28b1 100644
+index a8778ba40e31f2f366696766672c0e4ee9780698..a9a62877fd6bc4f9911cf938cf698c057040fdc4 100644
 --- a/src/main/java/org/dreeam/leaf/config/LeafConfig.java
 +++ b/src/main/java/org/dreeam/leaf/config/LeafConfig.java
 @@ -1,6 +1,7 @@
@@ -207,7 +207,7 @@ index 94143d1129a571d6a44e835211779e93c1ffc0bd..031750162e576b2c99cdf87fac059cac
  import org.jetbrains.annotations.Contract;
  import org.jetbrains.annotations.NotNull;
  
-@@ -212,6 +213,7 @@ public class LeafConfig {
+@@ -211,6 +212,7 @@ public class LeafConfig {
  
      private static String[] buildSparkHiddenPaths() {
          return new String[]{
