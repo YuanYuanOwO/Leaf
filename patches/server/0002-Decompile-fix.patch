@@ -60,3 +60,60 @@ index afbb027021acfbe25d534a84f1750e420bbde6e0..2ae8c9d56d88987b750e57025d313cfa
      }
  
      public <U> long getTimeUntilExpiry(MemoryModuleType<U> type) {
+diff --git a/src/main/java/net/minecraft/world/item/enchantment/Enchantment.java b/src/main/java/net/minecraft/world/item/enchantment/Enchantment.java
+index 161990842f19fc123fd9feca7231afec83802f47..7b1c7da451b93ee71db1488bc21fdeaf658da5fc 100644
+--- a/src/main/java/net/minecraft/world/item/enchantment/Enchantment.java
++++ b/src/main/java/net/minecraft/world/item/enchantment/Enchantment.java
+@@ -57,7 +57,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+ import net.minecraft.world.phys.Vec3;
+ import org.apache.commons.lang3.mutable.MutableFloat;
+ 
+-public record Enchantment(Component description, Enchantment.EnchantmentDefinition definition, HolderSet<Enchantment> exclusiveSet, DataComponentMap effects) {
++public final class Enchantment { // Leaf - Decompile fix
+     public static final int MAX_LEVEL = 255;
+     public static final Codec<Enchantment> DIRECT_CODEC = RecordCodecBuilder.create(
+         instance -> instance.group(
+@@ -73,6 +73,43 @@ public record Enchantment(Component description, Enchantment.EnchantmentDefiniti
+     public static final Codec<Holder<Enchantment>> CODEC = RegistryFixedCodec.create(Registries.ENCHANTMENT);
+     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<Enchantment>> STREAM_CODEC = ByteBufCodecs.holderRegistry(Registries.ENCHANTMENT);
+ 
++    // Leaf start - Decompile fix
++    // Converted record class to the normal one and made **definition field** public to follow the vanilla,
++    // Also for Nova plugin to be able to access
++    // See https://github.com/xenondevs/Nova/blob/e38a59f2b5e84da3262c6d51e4a1757457f4057a/nova/src/main/kotlin/xyz/xenondevs/nova/patch/impl/item/EnchantmentPatches.kt#L75C33-L75C43
++    // Leaf/Gale made changes in this class, so that it won't use original class to build
++    // And due to the decompiler issue (?maybe), this class will become the record class and all fields are private
++    // In this way when Nova trying to call `enchantment.definition.primaryItems`, the server will crash
++    // For example when server spawned mobs with enchanted armor/equipment
++    private final Component description;
++    public final EnchantmentDefinition definition; // Leaf - keep public as original
++    private final HolderSet<Enchantment> exclusiveSet;
++    private final DataComponentMap effects;
++
++    public Enchantment(Component description, EnchantmentDefinition definition, HolderSet<Enchantment> exclusiveSet, DataComponentMap effects) {
++        this.description = description;
++        this.definition = definition;
++        this.exclusiveSet = exclusiveSet;
++        this.effects = effects;
++    }
++
++    public Component description() {
++        return this.description;
++    }
++
++    public EnchantmentDefinition definition() {
++        return this.definition;
++    }
++
++    public HolderSet<Enchantment> exclusiveSet() {
++        return this.exclusiveSet;
++    }
++
++    public DataComponentMap effects() {
++        return this.effects;
++    }
++    // Leaf end - Decompile fix
++
+     public static Enchantment.Cost constantCost(int base) {
+         return new Enchantment.Cost(base, 0);
+     }

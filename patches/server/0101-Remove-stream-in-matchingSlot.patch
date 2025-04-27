@@ -5,10 +5,10 @@ Subject: [PATCH] Remove stream in matchingSlot
 
 
 diff --git a/src/main/java/net/minecraft/world/item/enchantment/Enchantment.java b/src/main/java/net/minecraft/world/item/enchantment/Enchantment.java
-index 161990842f19fc123fd9feca7231afec83802f47..31e8be9a5f7bb94841c609341e4daf81449acc3c 100644
+index 7b1c7da451b93ee71db1488bc21fdeaf658da5fc..eb96213c7f1b7880f29fdb6763fad6d2fb7eba62 100644
 --- a/src/main/java/net/minecraft/world/item/enchantment/Enchantment.java
 +++ b/src/main/java/net/minecraft/world/item/enchantment/Enchantment.java
-@@ -126,7 +126,15 @@ public record Enchantment(Component description, Enchantment.EnchantmentDefiniti
+@@ -163,7 +163,15 @@ public final class Enchantment { // Leaf - Decompile fix
      }
  
      public boolean matchingSlot(EquipmentSlot slot) {
