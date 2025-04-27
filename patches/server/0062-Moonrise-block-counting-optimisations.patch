@@ -282,10 +282,10 @@ index b02a0d9c71550d39aad08ed0932043531b661305..e2c7c9ed8bf4dc2eb10fbed59c518a2a
      // Paper end - block counting
  
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
-index 33747ef8211066155cd70ce2818862cf3e79db53..5b54d956486cec3c39824b15e37bf090798c5047 100644
+index 33747ef8211066155cd70ce2818862cf3e79db53..855b49e819498951163bc814a05e8d3e18e6b338 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
-@@ -28,23 +28,29 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
+@@ -28,23 +28,30 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
      public short fluidStateCount; // Gale - Airplane - reduce entity fluid lookups if no fluids
  
      // Paper start - block counting
@@ -303,7 +303,8 @@ index 33747ef8211066155cd70ce2818862cf3e79db53..5b54d956486cec3c39824b15e37bf090
 +    // Moonrise start - block counting optimisations
 +    private boolean isClient;
 +    private static final short CLIENT_FORCED_SPECIAL_COLLIDING_BLOCKS = (short) 9999;
-+    private short specialCollidingBlocks;
++    //private short specialCollidingBlocks;
++    private int specialCollidingBlocks; // Leaf - short -> int - Fix incompatibility with Nova
 +    private final ca.spottedleaf.moonrise.common.list.ShortList tickingBlocks = new ca.spottedleaf.moonrise.common.list.ShortList();
 +    // Moonrise end - block counting optimisations
  
@@ -322,7 +323,7 @@ index 33747ef8211066155cd70ce2818862cf3e79db53..5b54d956486cec3c39824b15e37bf090
          return this.tickingBlocks;
      }
      // Paper end - block counting
-@@ -84,6 +90,45 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
+@@ -84,6 +91,45 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
          return this.setBlockState(x, y, z, state, true);
      }
  
@@ -368,7 +369,7 @@ index 33747ef8211066155cd70ce2818862cf3e79db53..5b54d956486cec3c39824b15e37bf090
      public BlockState setBlockState(int x, int y, int z, BlockState state, boolean lock) {
          BlockState iblockdata1;
  
-@@ -103,7 +148,7 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
+@@ -103,7 +149,7 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
              }
          }
  
@@ -377,7 +378,7 @@ index 33747ef8211066155cd70ce2818862cf3e79db53..5b54d956486cec3c39824b15e37bf090
              --this.tickingFluidCount;
              --this.fluidStateCount; // Gale - Airplane - reduce entity fluid lookups if no fluids
          }
-@@ -115,26 +160,12 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
+@@ -115,26 +161,12 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
              }
          }
  
@@ -406,7 +407,7 @@ index 33747ef8211066155cd70ce2818862cf3e79db53..5b54d956486cec3c39824b15e37bf090
  
          return iblockdata1;
      }
-@@ -158,10 +189,12 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
+@@ -158,10 +190,12 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
      public void recalcBlockCounts() {
          // Paper start - block counting
          // reset, then recalculate
@@ -423,7 +424,7 @@ index 33747ef8211066155cd70ce2818862cf3e79db53..5b54d956486cec3c39824b15e37bf090
          this.tickingBlocks.clear();
  
          if (this.maybeHas((final BlockState state) -> !state.isAir())) {
-@@ -170,18 +203,20 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
+@@ -170,18 +204,20 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
              final int paletteSize = palette.getSize();
              final net.minecraft.util.BitStorage storage = data.storage();
  
@@ -449,7 +450,7 @@ index 33747ef8211066155cd70ce2818862cf3e79db53..5b54d956486cec3c39824b15e37bf090
                  final int paletteCount = coordinates.size();
  
                  final BlockState state = palette.valueFor(paletteIdx);
-@@ -191,25 +226,32 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
+@@ -191,25 +227,32 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
                  }
  
                  if (ca.spottedleaf.moonrise.patches.collisions.CollisionUtil.isSpecialCollidingBlock(state)) {
@@ -489,7 +490,7 @@ index 33747ef8211066155cd70ce2818862cf3e79db53..5b54d956486cec3c39824b15e37bf090
                      }
                      this.fluidStateCount++; // Gale - Airplane - reduce entity fluid lookups if no fluids
                  }
-@@ -233,7 +275,11 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
+@@ -233,7 +276,11 @@ public class LevelChunkSection implements ca.spottedleaf.moonrise.patches.block_
  
          datapaletteblock.read(buf);
          this.biomes = datapaletteblock;

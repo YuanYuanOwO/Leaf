@@ -3,6 +3,8 @@ From: Taiyou06 <kaandindar21@gmail.com>
 Date: Thu, 7 Nov 2024 19:45:31 +0100
 Subject: [PATCH] C2ME: Reduce Allocations
 
+Removed in Leaf 1.21.1, cause incompatibility with Nova (v0.17-alpha.39)
+
 This patch is based on the following mixin:
 "com/ishland/c2me/opts/allocs/mixin/object_pooling_caching/MixinOreFeature.java"
 By: ishland <ishlandmc@yeah.net>
