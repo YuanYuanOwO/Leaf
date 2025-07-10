@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Taiyou06 <kaandindar21@gmail.com>
+Date: Sun, 16 Feb 2025 01:13:04 +0100
+Subject: [PATCH] count all chunks for ticking
+
+diff --git a/net/minecraft/server/level/ServerChunkCache.java b/net/minecraft/server/level/ServerChunkCache.java
+index e07fdd22e08cb4e30cf606c055e85b5946e8c046..432c98b582ab40f893835a7a24ef9bbdacc49bd7 100644
+--- a/net/minecraft/server/level/ServerChunkCache.java
++++ b/net/minecraft/server/level/ServerChunkCache.java
+@@ -589,6 +589,14 @@ public class ServerChunkCache extends ChunkSource implements ca.spottedleaf.moon
+         final int size = tickingChunks.size();
+ 
+         final ChunkMap chunkMap = this.chunkMap;
++        // Leaf start - count all chunks for ticking
++        if (org.dreeam.leaf.config.modules.opt.CountAllChunksForTicking.enabled) {
++            for (int i = 0; i < size; ++i) {
++                output.add(raw[i].chunk());
++            }
++            return;
++        }
++        // Leaf end - count all chunks for ticking
+ 
+         for (int i = 0; i < size; ++i) {
+             final ServerChunkCache.ChunkAndHolder chunkAndHolder = raw[i];
