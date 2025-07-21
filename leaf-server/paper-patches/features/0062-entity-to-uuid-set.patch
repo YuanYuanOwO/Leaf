@@ -1,0 +1,20 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Taiyou06 <kaandindar21@gmail.com>
+Date: Mon, 21 Jul 2025 19:39:45 +0200
+Subject: [PATCH] entity to uuid set
+
+Licensed under: LGPL-3.0 (https://www.gnu.org/licenses/lgpl-3.0.html)
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
+index fc4fa99a993a017676da2be3cb254399d421bce1..76a164df551dd5660fde09230d568ef7e8dcce54 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
+@@ -901,7 +901,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+ 
+     @Override
+     public Set<UUID> getCollidableExemptions() {
+-        return this.getHandle().collidableExemptions;
++        return new org.dreeam.leaf.util.map.EntityIdToUuidSet(this.getHandle().collidableExemptions, this.getHandle().level());
+     }
+ 
+     @Override

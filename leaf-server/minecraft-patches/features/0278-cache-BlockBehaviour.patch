@@ -1,0 +1,57 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Taiyou06 <kaandindar21@gmail.com>
+Date: Mon, 21 Jul 2025 19:16:53 +0200
+Subject: [PATCH] cache BlockBehaviour
+
+Licensed under: LGPL-3.0 (https://www.gnu.org/licenses/lgpl-3.0.html)
+
+diff --git a/net/minecraft/world/level/block/state/BlockBehaviour.java b/net/minecraft/world/level/block/state/BlockBehaviour.java
+index 611887f5f8f218f5ec1ad19580f3123a60b20d46..3ea4157d7e57d7c7bc3af751593541f61fca7393 100644
+--- a/net/minecraft/world/level/block/state/BlockBehaviour.java
++++ b/net/minecraft/world/level/block/state/BlockBehaviour.java
+@@ -982,19 +982,25 @@ public abstract class BlockBehaviour implements FeatureElement {
+         }
+ 
+         public boolean is(TagKey<Block> tag) {
+-            return this.getBlock().builtInRegistryHolder().is(tag);
++            // Cache the holder reference to avoid multiple calls
++            return this.owner.builtInRegistryHolder().is(tag);
+         }
+ 
+         public boolean is(TagKey<Block> tag, Predicate<BlockBehaviour.BlockStateBase> predicate) {
+-            return this.is(tag) && predicate.test(this);
++            // Optimize by avoiding the redundant is() call and using cached holder
++            Holder<Block> holder = this.owner.builtInRegistryHolder();
++            return holder.is(tag) && predicate.test(this);
+         }
+ 
+         public boolean is(HolderSet<Block> holder) {
+-            return holder.contains(this.getBlock().builtInRegistryHolder());
++            // Cache the block holder reference
++            return holder.contains(this.owner.builtInRegistryHolder());
+         }
+ 
+         public boolean is(Holder<Block> block) {
+-            return this.is(block.value());
++            // Direct reference comparison first (fastest), then fallback to value comparison
++            Holder<Block> thisHolder = this.owner.builtInRegistryHolder();
++            return thisHolder == block || this.owner == block.value();
+         }
+ 
+         public Stream<TagKey<Block>> getTags() {
+@@ -1011,11 +1017,13 @@ public abstract class BlockBehaviour implements FeatureElement {
+         }
+ 
+         public boolean is(Block block) {
+-            return this.getBlock() == block;
++            // we use owner directly
++            return this.owner == block;
+         }
+ 
+         public boolean is(ResourceKey<Block> block) {
+-            return this.getBlock().builtInRegistryHolder().is(block);
++            // Cache the holder reference
++            return this.owner.builtInRegistryHolder().is(block);
+         }
+ 
+         public final FluidState getFluidState() { // Paper - Perf: Final for inlining

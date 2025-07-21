@@ -1,0 +1,170 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Taiyou06 <kaandindar21@gmail.com>
+Date: Sat, 12 Jul 2025 02:00:43 +0200
+Subject: [PATCH] Optimize-getEntities
+
+Licensed under: LGPL-3.0 (https://www.gnu.org/licenses/lgpl-3.0.html)
+
+Co-authored by: Martijn Muijsers <martijnmuijsers@live.nl>
+
+diff --git a/ca/spottedleaf/moonrise/patches/chunk_system/level/entity/ChunkEntitySlices.java b/ca/spottedleaf/moonrise/patches/chunk_system/level/entity/ChunkEntitySlices.java
+index 5ebc1b2cf186b512da5b62fedba16b612f2fa6ed..14dc37f0ed08b4eb4c7740ec68d23df0060c0955 100644
+--- a/ca/spottedleaf/moonrise/patches/chunk_system/level/entity/ChunkEntitySlices.java
++++ b/ca/spottedleaf/moonrise/patches/chunk_system/level/entity/ChunkEntitySlices.java
+@@ -579,6 +579,14 @@ public final class ChunkEntitySlices {
+ 
+             final BasicEntityList<Entity>[] entitiesBySection = this.entitiesBySection;
+ 
++            // Cache AABB fields to local variables to reduce field accesses inside the hot loop.
++            final double boxMinX = box.minX;
++            final double boxMinY = box.minY;
++            final double boxMinZ = box.minZ;
++            final double boxMaxX = box.maxX;
++            final double boxMaxY = box.maxY;
++            final double boxMaxZ = box.maxZ;
++
+             for (int section = min; section <= max; ++section) {
+                 final BasicEntityList<Entity> list = entitiesBySection[section - minSection];
+ 
+@@ -587,11 +595,18 @@ public final class ChunkEntitySlices {
+                 }
+ 
+                 final Entity[] storage = list.storage;
++                final int len = Math.min(storage.length, list.size());
+ 
+-                for (int i = 0, len = Math.min(storage.length, list.size()); i < len; ++i) {
++                for (int i = 0; i < len; ++i) {
+                     final Entity entity = storage[i];
+ 
+-                    if (entity == null || entity == except || !entity.getBoundingBox().intersects(box)) {
++                    if (entity == null || entity == except) {
++                        continue;
++                    }
++
++                    // Inline AABB#intersects to avoid a method call and use the cached AABB fields.
++                    final AABB entityBB = entity.getBoundingBox();
++                    if (entityBB.maxX <= boxMinX || entityBB.minX >= boxMaxX || entityBB.maxY <= boxMinY || entityBB.minY >= boxMaxY || entityBB.maxZ <= boxMinZ || entityBB.minZ >= boxMaxZ) {
+                         continue;
+                     }
+ 
+@@ -618,19 +633,32 @@ public final class ChunkEntitySlices {
+ 
+             final BasicEntityList<Entity>[] entitiesBySection = this.entitiesBySection;
+ 
++            // Cache AABB fields to local variables to reduce field accesses inside the hot loop.
++            final double boxMinX = box.minX;
++            final double boxMinY = box.minY;
++            final double boxMinZ = box.minZ;
++            final double boxMaxX = box.maxX;
++            final double boxMaxY = box.maxY;
++            final double boxMaxZ = box.maxZ;
++
+             for (int section = min; section <= max; ++section) {
+                 final BasicEntityList<Entity> list = entitiesBySection[section - minSection];
+-
+                 if (list == null) {
+                     continue;
+                 }
+ 
+                 final Entity[] storage = list.storage;
++                final int len = Math.min(storage.length, list.size());
+ 
+-                for (int i = 0, len = Math.min(storage.length, list.size()); i < len; ++i) {
++                for (int i = 0; i < len; ++i) {
+                     final Entity entity = storage[i];
++                    if (entity == null || entity == except) {
++                        continue;
++                    }
+ 
+-                    if (entity == null || entity == except || !entity.getBoundingBox().intersects(box)) {
++                    // Inline AABB#intersects to avoid a method call and use the cached AABB fields.
++                    final AABB entityBB = entity.getBoundingBox();
++                    if (entityBB.maxX <= boxMinX || entityBB.minX >= boxMaxX || entityBB.maxY <= boxMinY || entityBB.minY >= boxMaxY || entityBB.maxZ <= boxMinZ || entityBB.minZ >= boxMaxZ) {
+                         continue;
+                     }
+ 
+diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
+index d6be86981219f0fe0db15d36d9c85e9a56020373..a5fb2e4e264ab14b867a0b084ce7a461d3b5eaae 100644
+--- a/net/minecraft/world/entity/LivingEntity.java
++++ b/net/minecraft/world/entity/LivingEntity.java
+@@ -282,13 +282,17 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+     public List<DefaultDrop> drops = new java.util.ArrayList<>(); // Paper - Restore vanilla drops behavior
+     public final org.bukkit.craftbukkit.attribute.CraftAttributeMap craftAttributes;
+     public boolean collides = true;
+-    public Set<UUID> collidableExemptions = new java.util.HashSet<>();
++    public it.unimi.dsi.fastutil.ints.IntOpenHashSet collidableExemptions = new it.unimi.dsi.fastutil.ints.IntOpenHashSet(); // Leaf - optimize getEntities
++    private boolean hasAnyExemptions = false; // Leaf - optimize getEntities
++    private SynchedEntityData.DataItem<Float> healthDataItem; // Leaf - Cached reference to avoid array lookup
+     public boolean bukkitPickUpLoot;
+     public org.bukkit.craftbukkit.entity.CraftLivingEntity getBukkitLivingEntity() { return (org.bukkit.craftbukkit.entity.CraftLivingEntity) super.getBukkitEntity(); } // Paper
+     public boolean silentDeath = false; // Paper - mark entity as dying silently for cancellable death event
+     public net.kyori.adventure.util.TriState frictionState = net.kyori.adventure.util.TriState.NOT_SET; // Paper - Friction API
+     public int shieldBlockingDelay = this.level().paperConfig().misc.shieldBlockingDelay; // Paper - Make shield blocking delay configurable
+     protected boolean shouldBurnInDay = false; public boolean shouldBurnInDay() { return this.shouldBurnInDay; } public void setShouldBurnInDay(boolean shouldBurnInDay) { this.shouldBurnInDay = shouldBurnInDay; } // Purpur - API for any mob to burn daylight
++    private Boolean cachedFixClimbingBypassingCrammingRule = null;
++    private Level cachedConfigLevel = null;
+     // CraftBukkit end
+ 
+     protected LivingEntity(EntityType<? extends LivingEntity> entityType, Level level) {
+@@ -304,6 +308,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+         this.setYRot((float)(Math.random() * (float) (Math.PI * 2)));
+         this.yHeadRot = this.getYRot();
+         this.brain = this.makeBrain(EMPTY_BRAIN);
++        healthDataItem = null;
+     }
+ 
+     @Contract(
+@@ -1413,7 +1418,11 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+             return (float) serverPlayer.getBukkitEntity().getHealth();
+         }
+         // CraftBukkit end
+-        return this.entityData.get(DATA_HEALTH_ID);
++
++        // Optimize entity data access by caching the DataItem reference
++        // This avoids the array lookup in entityData.get() for every call
++        if (this.healthDataItem == null) {this.healthDataItem = this.entityData.getItem(DATA_HEALTH_ID);}
++        return this.healthDataItem.getValue();
+     }
+ 
+     public void setHealth(float health) {
+@@ -2282,7 +2291,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+ 
+     @Override
+     public boolean isAlive() {
+-        return !this.isRemoved() && this.getHealth() > 0.0F && !this.dead; // Paper - Check this.dead
++        return !this.dead && !this.isRemoved() && this.getHealth() > 0.0F; // Paper - Check this.dead // Leaf - check the cheapest first
+     }
+ 
+     public boolean isLookingAtMe(LivingEntity entity, double tolerance, boolean scaleByDistance, boolean visual, double... yValues) {
+@@ -4044,10 +4053,21 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+         return !this.isRemoved() && this.collides; // CraftBukkit
+     }
+ 
++    // Leaf start - optimize getEntities
++    private boolean getFixClimbingBypassingCrammingRule() {
++        Level currentLevel = this.level();
++        if (this.cachedFixClimbingBypassingCrammingRule == null || this.cachedConfigLevel != currentLevel) {
++            this.cachedConfigLevel = currentLevel;
++            this.cachedFixClimbingBypassingCrammingRule = currentLevel.paperConfig().collisions.fixClimbingBypassingCrammingRule;
++        }
++        return this.cachedFixClimbingBypassingCrammingRule;
++    }
++    // Leaf end - optimize getEntities
++
+     // Paper start - Climbing should not bypass cramming gamerule
+     @Override
+     public boolean isPushable() {
+-        return this.isCollidable(this.level().paperConfig().collisions.fixClimbingBypassingCrammingRule);
++        return this.isCollidable(this.getFixClimbingBypassingCrammingRule()); // Leaf - optimize getEntities
+     }
+ 
+     @Override
+@@ -4059,7 +4079,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+     // CraftBukkit start - collidable API
+     @Override
+     public boolean canCollideWithBukkit(Entity entity) {
+-        return this.isPushable() && this.collides != this.collidableExemptions.contains(entity.getUUID());
++        return this.isPushable() && this.collides && (!hasAnyExemptions || !collidableExemptions.contains(entity.getId()));
+     }
+     // CraftBukkit end
+ 
