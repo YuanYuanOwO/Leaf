@@ -24,7 +24,7 @@ index 5c1f99a8fd9920b30e6a80769bc306591510012a..7151c2a53687b4abef65c0a3da363ccd
          BlockState blockState = this.getBlockState(pos);
          FluidState fluidState = blockState.getFluidState();
 diff --git a/net/minecraft/world/level/material/FlowingFluid.java b/net/minecraft/world/level/material/FlowingFluid.java
-index 4c2c2efd5380ff1fa5ad7553b51babae20f516ae..01ba0756789fcc61905bbaf1be88b526b76f2490 100644
+index 4c2c2efd5380ff1fa5ad7553b51babae20f516ae..5069006c609f43559cf241fd5267a1f52f7d9680 100644
 --- a/net/minecraft/world/level/material/FlowingFluid.java
 +++ b/net/minecraft/world/level/material/FlowingFluid.java
 @@ -341,32 +341,123 @@ public abstract class FlowingFluid extends Fluid {
@@ -110,7 +110,7 @@ index 4c2c2efd5380ff1fa5ad7553b51babae20f516ae..01ba0756789fcc61905bbaf1be88b526
 +    }
 +
 +    private static long encodeSlopeNode(BlockPos pos, Direction excludedDir) {
-+        return ((long) pos.getX() & 0xFFFFFFFFL) << 32 | ((long) pos.getZ() & 0xFFFFFFFFL) << 4 | (excludedDir.ordinal() & 0x0F);
++        return ((pos.getX() & 67108863L) << 38) | ((pos.getZ() & 67108863L) << 12) | (excludedDir.ordinal() & 0x0F);
 +    }
 +
 +    public static class SlopeDistanceNodeDeque {
