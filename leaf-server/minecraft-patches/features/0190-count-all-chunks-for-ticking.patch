@@ -5,10 +5,10 @@ Subject: [PATCH] count all chunks for ticking
 
 
 diff --git a/net/minecraft/server/level/ServerChunkCache.java b/net/minecraft/server/level/ServerChunkCache.java
-index e07fdd22e08cb4e30cf606c055e85b5946e8c046..432c98b582ab40f893835a7a24ef9bbdacc49bd7 100644
+index 7531e684e16bc038811fbf133caced9c7f5efe07..10fb9cc994ddc8820bed23d722b49b9f33e5fc09 100644
 --- a/net/minecraft/server/level/ServerChunkCache.java
 +++ b/net/minecraft/server/level/ServerChunkCache.java
-@@ -589,6 +589,14 @@ public class ServerChunkCache extends ChunkSource implements ca.spottedleaf.moon
+@@ -593,6 +593,14 @@ public class ServerChunkCache extends ChunkSource implements ca.spottedleaf.moon
          final int size = tickingChunks.size();
  
          final ChunkMap chunkMap = this.chunkMap;
