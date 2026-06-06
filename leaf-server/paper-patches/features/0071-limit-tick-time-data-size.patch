@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hayanesuru <hayanesuru@outlook.jp>
+Date: Sat, 6 Jun 2026 21:52:09 +0900
+Subject: [PATCH] limit tick time data size
+
+
+diff --git a/src/main/java/ca/spottedleaf/moonrise/common/time/TickData.java b/src/main/java/ca/spottedleaf/moonrise/common/time/TickData.java
+index 9d46b26ab531b01189b7e57bfc5befa11de9f0b1..6e75a727066cce9f0f185b44dbe50f99e3e5f14d 100644
+--- a/src/main/java/ca/spottedleaf/moonrise/common/time/TickData.java
++++ b/src/main/java/ca/spottedleaf/moonrise/common/time/TickData.java
+@@ -27,6 +27,11 @@ public final class TickData {
+             }
+             this.timeData.pollFirst();
+         }
++        // Leaf start - limit tick time data size
++        while (this.timeData.size() > 900_000) {
++            this.timeData.pollFirst();
++        }
++        // Leaf end - limit tick time data size
+ 
+         this.timeData.add(time);
+     }
