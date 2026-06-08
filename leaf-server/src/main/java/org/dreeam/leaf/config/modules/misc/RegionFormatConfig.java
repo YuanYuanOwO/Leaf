@@ -7,6 +7,7 @@ import org.dreeam.leaf.config.ConfigModules;
 import org.dreeam.leaf.config.EnumConfigCategory;
 import org.dreeam.leaf.config.annotations.DoNotLoad;
 import org.dreeam.leaf.config.annotations.HotReloadUnsupported;
+import org.dreeam.leaf.util.LeafConstants;
 
 public class RegionFormatConfig extends ConfigModules {
 
@@ -24,6 +25,10 @@ public class RegionFormatConfig extends ConfigModules {
     public static @DoNotLoad BufferedLinearRegionFileFlusher blinearFlusher = null;
 
     private static boolean regionFormatLoaded = false;
+
+    public static boolean isReadOnlyMode() {
+        return LeafConstants.LINEAR_V2_READ_ONLY && regionFormat == EnumRegionFormat.LINEAR_V2;
+    }
 
     @Override
     public void onLoaded() {
@@ -61,7 +66,18 @@ public class RegionFormatConfig extends ConfigModules {
         if (regionFormat == EnumRegionFormat.LINEAR_V2) {
             checkCompressionLevel();
             LOGGER.warn("Linear v2 region format is unstable and not recommended to use, beware of data loss and take backups.");
-
+            if (isReadOnlyMode()) {
+                LOGGER.error("============================================================");
+                LOGGER.error("                  LINEAR_V2 READ-ONLY MODE                 ");
+                LOGGER.error("============================================================");
+                LOGGER.error("Linear v2 read-only mode is enabled.");
+                LOGGER.error("Any world changes in Linear v2 regions will NOT be saved.");
+                LOGGER.error("Chunk, entity, player data and POI changes will be discarded.");
+                LOGGER.error("This mode is intended for inspection, testing, migration, or emergency recovery.");
+                LOGGER.error("To enable LINEAR_V2 writing, stop the server, take backups,");
+                LOGGER.error("then remove the JVM flag: -D{}=true", LeafConstants.LINEAR_V2_READ_ONLY_FLAG);
+                LOGGER.error("============================================================");
+            }
             LinearRegionFile.SAVE_DELAY_MS = ioFlushDelay <= 0 ? 100 : ioFlushDelay;
             LinearRegionFile.SAVE_THREAD_MAX_COUNT = ioThreadCount;
             LinearRegionFile.USE_VIRTUAL_THREAD = linearUseVirtualThread;
