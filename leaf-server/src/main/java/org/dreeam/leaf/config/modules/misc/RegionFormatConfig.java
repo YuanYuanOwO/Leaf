@@ -16,7 +16,7 @@ public class RegionFormatConfig extends ConfigModules {
     }
 
     public static @HotReloadUnsupported String regionFormatName = "MCA";
-    public static @HotReloadUnsupported int compressionLevel = 1;
+    public static @HotReloadUnsupported int compressionLevel = 6;
     public static @HotReloadUnsupported int ioThreadCount = 6;
     public static @HotReloadUnsupported int ioFlushDelay = -1;
     public static @HotReloadUnsupported boolean linearUseVirtualThread = true;
