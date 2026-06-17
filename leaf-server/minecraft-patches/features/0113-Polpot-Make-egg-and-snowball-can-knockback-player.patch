@@ -10,16 +10,16 @@ Set hurtMarked to true to be able to send velocity changes
 under Entity#sendChanges via ClientboundSetEntityMotionPacket
 
 diff --git a/net/minecraft/world/entity/projectile/throwableitemprojectile/Snowball.java b/net/minecraft/world/entity/projectile/throwableitemprojectile/Snowball.java
-index f8ca088ab75e6bfdfc566c97879c12beaeefcda0..9af911d4adbec78a4c1492f913b5e964687b1d7d 100644
+index c020131afcd383d15b08756b032ffe500309b81e..49039b13ca9d18d8f834c262f78ef5000e3b1317 100644
 --- a/net/minecraft/world/entity/projectile/throwableitemprojectile/Snowball.java
 +++ b/net/minecraft/world/entity/projectile/throwableitemprojectile/Snowball.java
-@@ -56,6 +56,12 @@ public class Snowball extends ThrowableItemProjectile {
+@@ -57,6 +57,12 @@ public class Snowball extends ThrowableItemProjectile {
          Entity entity = hitResult.getEntity();
          int damage = entity.level().purpurConfig.snowballDamage >= 0 ? entity.level().purpurConfig.snowballDamage : entity instanceof Blaze ? 3 : 0; // Purpur - Add configurable snowball damage
          entity.hurt(this.damageSources().thrown(this, this.getOwner()), damage);
 +        // Leaf start - Polpot - Make snowball can knockback player
 +        if (org.dreeam.leaf.config.modules.gameplay.Knockback.snowballCanKnockback && entity instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
-+            serverPlayer.knockback(0.4F, this.getX() - entity.getX(), this.getZ() - entity.getZ());
++            serverPlayer.knockback(0.4F, this.getX() - entity.getX(), this.getZ() - entity.getZ(), damageSources().generic(), 0.0F);
 +            serverPlayer.markHurt();
 +        }
 +        // Leaf end - Polpot - Make snowball can knockback player
@@ -27,10 +27,10 @@ index f8ca088ab75e6bfdfc566c97879c12beaeefcda0..9af911d4adbec78a4c1492f913b5e964
  
      // Purpur start - options to extinguish fire blocks with snowballs - borrowed and modified code from ThrownPotion#onHitBlock and ThrownPotion#dowseFire
 diff --git a/net/minecraft/world/entity/projectile/throwableitemprojectile/ThrownEgg.java b/net/minecraft/world/entity/projectile/throwableitemprojectile/ThrownEgg.java
-index 55d97e1a69d17308196938398ab5a34bcca44e46..704ae5a3ea1a685e6ecc574ad6e2da63d79f1973 100644
+index 0a37aa2e6557bcd5cc1918abfa0d6b7ffeac7b4d..f92e769a13d0647ad398649af0b187f63d342e64 100644
 --- a/net/minecraft/world/entity/projectile/throwableitemprojectile/ThrownEgg.java
 +++ b/net/minecraft/world/entity/projectile/throwableitemprojectile/ThrownEgg.java
-@@ -59,7 +59,14 @@ public class ThrownEgg extends ThrowableItemProjectile {
+@@ -60,7 +60,14 @@ public class ThrownEgg extends ThrowableItemProjectile {
      @Override
      protected void onHitEntity(final EntityHitResult hitResult) {
          super.onHitEntity(hitResult);
@@ -39,7 +39,7 @@ index 55d97e1a69d17308196938398ab5a34bcca44e46..704ae5a3ea1a685e6ecc574ad6e2da63
 +        net.minecraft.world.entity.Entity entity = hitResult.getEntity();
 +        entity.hurt(this.damageSources().thrown(this, this.getOwner()), 0.0F);
 +        if (org.dreeam.leaf.config.modules.gameplay.Knockback.eggCanKnockback && entity instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
-+            serverPlayer.knockback(0.4F, this.getX() - entity.getX(), this.getZ() - entity.getZ());
++            serverPlayer.knockback(0.4F, this.getX() - entity.getX(), this.getZ() - entity.getZ(), damageSources().generic(), 0.0F);
 +            serverPlayer.markHurt();
 +        }
 +        // Leaf end - Polpot - Make egg can knockback player

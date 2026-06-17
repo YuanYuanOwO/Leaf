@@ -5,10 +5,10 @@ Subject: [PATCH] Fix sprint glitch
 
 
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index b26fd130b2beee3cb76a1bc494ae052720976656..e7a8199ff27725257a22166327e7f1e67d62bf93 100644
+index 16f67255840725accc1740091729e67abcb3598c..ee17d070c13d09576440e36faa70581589197b1e 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -1443,7 +1443,8 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -1465,7 +1465,8 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
                  player.setRealHealth(health);
              }
  

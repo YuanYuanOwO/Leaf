@@ -45,10 +45,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index a29a102e25d44a1f1d010b0eb478ee6c6d2094dc..b8e67f5d77ebf9b0d1a3824027681999bf4e2f2e 100644
+index 1414c2d7876f2dd6c8d3aec15ad9eb9f0555365c..7b6193d3c0602a044e7b13e698ca4ea542008bf9 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -214,6 +214,7 @@ public class ServerPlayer extends Player implements ca.spottedleaf.moonrise.patc
+@@ -218,6 +218,7 @@ public class ServerPlayer extends Player implements ca.spottedleaf.moonrise.patc
      public static final String ENDER_PEARLS_TAG = "ender_pearls";
      public static final String ENDER_PEARL_DIMENSION_TAG = "ender_pearl_dimension";
      public static final String TAG_DIMENSION = "Dimension";
@@ -56,7 +56,7 @@ index a29a102e25d44a1f1d010b0eb478ee6c6d2094dc..b8e67f5d77ebf9b0d1a3824027681999
      private static final AttributeModifier CREATIVE_BLOCK_INTERACTION_RANGE_MODIFIER = new AttributeModifier(
          Identifier.withDefaultNamespace("creative_mode_block_range"), 0.5, AttributeModifier.Operation.ADD_VALUE
      );
-@@ -827,19 +828,23 @@ public class ServerPlayer extends Player implements ca.spottedleaf.moonrise.patc
+@@ -826,19 +827,23 @@ public class ServerPlayer extends Player implements ca.spottedleaf.moonrise.patc
                  }
  
                  this.foodData.tick(this);

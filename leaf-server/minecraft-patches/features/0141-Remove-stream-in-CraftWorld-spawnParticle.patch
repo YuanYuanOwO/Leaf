@@ -5,10 +5,10 @@ Subject: [PATCH] Remove stream in CraftWorld#spawnParticle
 
 
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index dea1f1773b2d3c671970c96242331a6bf9d9e027..3dd97c09274347c1a1853685a1bbde2e5a7d38df 100644
+index f90f1ce7992fd01f084346c3e7721d57bb0f7680..b12ad11c59eec12b88783731ee4bf5c75173307b 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -2245,7 +2245,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2259,7 +2259,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
          for (int i = 0; i < receivers.size(); i++) { // Paper - particle API
              ServerPlayer player = receivers.get(i); // Paper - particle API
@@ -17,7 +17,7 @@ index dea1f1773b2d3c671970c96242331a6bf9d9e027..3dd97c09274347c1a1853685a1bbde2e
              if (this.sendParticles(player, overrideLimiter, x, y, z, packet)) {
                  result++;
              }
-@@ -2254,6 +2254,44 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2268,6 +2268,44 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          return result;
      }
  

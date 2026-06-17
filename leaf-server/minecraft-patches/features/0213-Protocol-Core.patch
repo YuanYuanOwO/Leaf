@@ -5,7 +5,7 @@ Subject: [PATCH] Protocol Core
 
 
 diff --git a/net/minecraft/network/protocol/common/custom/CustomPacketPayload.java b/net/minecraft/network/protocol/common/custom/CustomPacketPayload.java
-index 2e8435ce5f7392fe113ceeab0a91ef2fb55b848d..38ead4daaea75c4c85b0742b5cbf6f13d913dfd8 100644
+index 2f1e5c3de421bd07e30c417bf88935be85cf573c..702d368bb5cf11863197b92d17f03738d754ab35 100644
 --- a/net/minecraft/network/protocol/common/custom/CustomPacketPayload.java
 +++ b/net/minecraft/network/protocol/common/custom/CustomPacketPayload.java
 @@ -46,6 +46,12 @@ public interface CustomPacketPayload {
@@ -22,10 +22,10 @@ index 2e8435ce5f7392fe113ceeab0a91ef2fb55b848d..38ead4daaea75c4c85b0742b5cbf6f13
              }
  
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 84797d81c8de7553435336602669967cb2d9c5f4..8737dd844d77361b88fd72db5c4d97210a381566 100644
+index 1a16efc9d815426d4b009cdfa40f82826fb0f691..6a325f2cc601c0d3e96bad39d709c2945ad3adf5 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -2017,6 +2017,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2016,6 +2016,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          profiler.popPush("server gui refresh");
  
          org.leavesmc.leaves.protocol.core.LeavesProtocolManager.handleTick(tickCount); // Leaves - protocol
@@ -34,10 +34,10 @@ index 84797d81c8de7553435336602669967cb2d9c5f4..8737dd844d77361b88fd72db5c4d9721
          for (Runnable tickable : this.tickables) {
              tickable.run();
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index 0c2565092ede78f9afcdf2ba62e2b049af7a59a7..e7d6416d90eaeefe30c4acf303a62cb86007008a 100644
+index d14e48b76df1d8129e30357d911acbb495407e14..1990c0b2977ec2ad4d9df934463a14b3b124bc4a 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -791,6 +791,7 @@ public class ServerPlayer extends Player implements ca.spottedleaf.moonrise.patc
+@@ -790,6 +790,7 @@ public class ServerPlayer extends Player implements ca.spottedleaf.moonrise.patc
              }
          }
          // Purpur end - Ridables
@@ -46,7 +46,7 @@ index 0c2565092ede78f9afcdf2ba62e2b049af7a59a7..e7d6416d90eaeefe30c4acf303a62cb8
  
      private void updatePlayerAttributes() {
 diff --git a/net/minecraft/server/network/ServerCommonPacketListenerImpl.java b/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
-index f6db58520fedfcb4b134edbd9fabf65e75fb16e7..b4abccedd0ba1a87b6b2d315e0361681d465e8e6 100644
+index f564aaf75ca18b53035bb434d8f5a8e7672e17c4..25866d0f9bcb9d9eb27ed7c7274c2e9b2ea03721 100644
 --- a/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 @@ -186,6 +186,12 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
@@ -63,10 +63,10 @@ index f6db58520fedfcb4b134edbd9fabf65e75fb16e7..b4abccedd0ba1a87b6b2d315e0361681
          final byte[] data = discardedPayload.data();
          try {
 diff --git a/net/minecraft/server/players/PlayerList.java b/net/minecraft/server/players/PlayerList.java
-index beff9d0d323f6bcae444c63fdd93069e26391600..824c93e183078bc648020f8e353ac66659ba4f05 100644
+index e101e3f254adf74b66c603c4111a7d3d6609ccd3..6469a2b443373854b98912485b8592dc03abdcee 100644
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
-@@ -610,6 +610,7 @@ public abstract class PlayerList {
+@@ -621,6 +621,7 @@ public abstract class PlayerList {
          // Paper end - Fix kick event leave message not being sent
          org.purpurmc.purpur.task.BossBarTask.removeFromAll(player.getBukkitEntity()); // Purpur - Implement TPSBar
          org.leavesmc.leaves.protocol.core.LeavesProtocolManager.handlePlayerLeave(player); // Leaves - protocol

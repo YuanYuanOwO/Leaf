@@ -22,7 +22,7 @@ index 2e97b080452fae8f8410c209ecfa9da7b4633ae0..3783382a712930b49fa5211342984d47
  
      @Override
 diff --git a/net/minecraft/commands/arguments/selector/EntitySelector.java b/net/minecraft/commands/arguments/selector/EntitySelector.java
-index f3a6955105b6826af82e6570cbf2d9175cb59859..422ef6bdb0f041c684af6ff1fe828b36eb8c63de 100644
+index d5559c82f52532bfc8c6aea7c9b1a769c1e532c4..01fdddf69fca99b7d6f18ccf3a2ff96dcacc2d5f 100644
 --- a/net/minecraft/commands/arguments/selector/EntitySelector.java
 +++ b/net/minecraft/commands/arguments/selector/EntitySelector.java
 @@ -144,13 +144,14 @@ public class EntitySelector {
@@ -96,10 +96,10 @@ index f3a6955105b6826af82e6570cbf2d9175cb59859..422ef6bdb0f041c684af6ff1fe828b36
                      result.add(player);
                      if (result.size() >= limit) {
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 0ec8e4383c3db031a0ccd8b0bacd757ea4527e39..d122aab84600a82d0d7868daf13cc2850f75dd8e 100644
+index 4a1f8e683c0070d8bf6d8d86361e9629b1c246d9..5930d6850848024dcb616e3e28ba7f89aab0fa6a 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -1850,7 +1850,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1849,7 +1849,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      private ServerStatus.Players buildPlayerStatus() {
@@ -108,7 +108,7 @@ index 0ec8e4383c3db031a0ccd8b0bacd757ea4527e39..d122aab84600a82d0d7868daf13cc285
          int maxPlayers = this.getMaxPlayers();
          if (this.hidesOnlinePlayers()) {
              return new ServerStatus.Players(maxPlayers, players.size(), List.of());
-@@ -2053,7 +2053,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2052,7 +2052,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @Override
      public int getPlayerCount() {
@@ -117,7 +117,7 @@ index 0ec8e4383c3db031a0ccd8b0bacd757ea4527e39..d122aab84600a82d0d7868daf13cc285
      }
  
      public String[] getPlayerNames() {
-@@ -2266,7 +2266,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2269,7 +2269,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          int count = 0;
  
@@ -126,7 +126,7 @@ index 0ec8e4383c3db031a0ccd8b0bacd757ea4527e39..d122aab84600a82d0d7868daf13cc285
              // Paper start - Expand PlayerGameModeChangeEvent
              org.bukkit.event.player.PlayerGameModeChangeEvent event = player.setGameMode(gameType, org.bukkit.event.player.PlayerGameModeChangeEvent.Cause.DEFAULT_GAMEMODE, null);
              if (event == null || event.isCancelled()) {
-@@ -2431,7 +2431,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2438,7 +2438,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                  if (Thread.currentThread() != this.serverThread) return; // Paper
                  // Paper start - we don't need to save everything, just advancements
                  // this.getPlayerList().saveAll();
@@ -135,7 +135,7 @@ index 0ec8e4383c3db031a0ccd8b0bacd757ea4527e39..d122aab84600a82d0d7868daf13cc285
                      player.getAdvancements().save();
                  }
                  // Paper end - we don't need to save everything, just advancements
-@@ -2567,7 +2567,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2574,7 +2574,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              PlayerList playerList = this.getPlayerList();
              UserWhiteList whiteList = playerList.getWhiteList();
  
@@ -145,10 +145,10 @@ index 0ec8e4383c3db031a0ccd8b0bacd757ea4527e39..d122aab84600a82d0d7868daf13cc285
                      player.connection.disconnect(net.kyori.adventure.text.Component.text(org.spigotmc.SpigotConfig.whitelistMessage), org.bukkit.event.player.PlayerKickEvent.Cause.WHITELIST); // Paper - use configurable message & kick event cause
                  }
 diff --git a/net/minecraft/server/PlayerAdvancements.java b/net/minecraft/server/PlayerAdvancements.java
-index bf0b03e3bd2959fd1e7cf690d69925ca27aaa61d..37080d8ceb771f3b7850d808421a63643c604370 100644
+index b0008500794efc8a1494834d8805734d253bf6ab..48ce4398ae2eeaaec496f1988675cd86012021d9 100644
 --- a/net/minecraft/server/PlayerAdvancements.java
 +++ b/net/minecraft/server/PlayerAdvancements.java
-@@ -168,6 +168,11 @@ public class PlayerAdvancements {
+@@ -166,6 +166,11 @@ public class PlayerAdvancements {
      }
  
      public boolean award(final AdvancementHolder holder, final String criterion) {
@@ -161,7 +161,7 @@ index bf0b03e3bd2959fd1e7cf690d69925ca27aaa61d..37080d8ceb771f3b7850d808421a6364
          AdvancementProgress progress = this.getOrStartProgress(holder);
          boolean wasDone = progress.isDone();
 diff --git a/net/minecraft/server/ServerScoreboard.java b/net/minecraft/server/ServerScoreboard.java
-index 9bf09b888425e491072864265c8de3885154a0ba..97a8fee8280061312a28013a5400e835db2eb474 100644
+index 7ffd683c42557052d7bfa963d87e68f4e8f62d6c..9d0f55250ec6613f7ad8252dd028468967953521 100644
 --- a/net/minecraft/server/ServerScoreboard.java
 +++ b/net/minecraft/server/ServerScoreboard.java
 @@ -245,7 +245,7 @@ public class ServerScoreboard extends Scoreboard {
@@ -271,10 +271,10 @@ index 6a79944b040307acef3d1c66bd0dacaba514c708..4fa37a9772a10aea5eacaa1a02d9f834
                                      .filter(receiver -> receiver == entity || receiver.getTeam() == team)
                                      .toList();
 diff --git a/net/minecraft/server/commands/WhitelistCommand.java b/net/minecraft/server/commands/WhitelistCommand.java
-index 7b2abb978d7063a7a47840c10d0ddac0ef139ef7..8096a439667cf8c9e8af9d869a5c186664724c5c 100644
+index 3bc559b636288d38192c64a2aba15c062898182f..b6d9d141e252d398a5320ba2213cc23b182ad9ec 100644
 --- a/net/minecraft/server/commands/WhitelistCommand.java
 +++ b/net/minecraft/server/commands/WhitelistCommand.java
-@@ -44,7 +44,7 @@ public class WhitelistCommand {
+@@ -45,7 +45,7 @@ public class WhitelistCommand {
                                      (c, p) -> {
                                          PlayerList list = c.getSource().getServer().getPlayerList();
                                          return SharedSuggestionProvider.suggest(
@@ -299,18 +299,18 @@ index 37c9f983ae89c497f44a1b7967d741abf909e0a0..d7fb2505f2a86ca0d81f144624ef2e1a
  
              this.setListData(players);
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index bce4ab6a91b86a838819a92910e2dff9836675b3..630c909c527df7459e87b0ab239335e38a777d78 100644
+index 3c74093713e90243cf7735834e84cae3e00ddfa2..ed29642560d6a8b62d8808c78e69faa7cb70efe7 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -237,6 +237,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
-     public boolean hasEntityMoveEvent; // Paper - Add EntityMoveEvent
+@@ -240,6 +240,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+     public final org.bukkit.craftbukkit.persistence.CraftPersistentDataContainer persistentDataContainer = new org.bukkit.craftbukkit.persistence.CraftPersistentDataContainer(DATA_TYPE_REGISTRY);
      private final alternate.current.wire.WireHandler wireHandler = new alternate.current.wire.WireHandler(this); // Paper - optimize redstone (Alternate Current)
      public boolean hasRidableMoveEvent = false; // Purpur - Ridables
 +    final List<ServerPlayer> realPlayers; // Leaves - skip
  
      @Override
      public @Nullable LevelChunk getChunkIfLoaded(int x, int z) {
-@@ -759,6 +760,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -762,6 +763,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          // Paper end - rewrite chunk system
          this.getCraftServer().addWorld(this.getWorld()); // CraftBukkit
          this.preciseTime = this.serverLevelData.getGameTime(); // Purpur - Configurable daylight cycle
@@ -318,7 +318,7 @@ index bce4ab6a91b86a838819a92910e2dff9836675b3..630c909c527df7459e87b0ab239335e3
      }
  
      // Paper start
-@@ -2940,6 +2942,11 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2948,6 +2950,11 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              // ServerLevel.this.getChunkSource().addEntity(entity); // Paper - ignore and warn about illegal addEntity calls instead of crashing server; moved down below valid=true
              if (entity instanceof ServerPlayer player) {
                  ServerLevel.this.players.add(player);
@@ -330,7 +330,7 @@ index bce4ab6a91b86a838819a92910e2dff9836675b3..630c909c527df7459e87b0ab239335e3
                  if (player.isReceivingWaypoints()) {
                      ServerLevel.this.getWaypointManager().addPlayer(player);
                  }
-@@ -3018,6 +3025,11 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -3026,6 +3033,11 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              ServerLevel.this.getChunkSource().removeEntity(entity);
              if (entity instanceof ServerPlayer player) {
                  ServerLevel.this.players.remove(player);
@@ -343,7 +343,7 @@ index bce4ab6a91b86a838819a92910e2dff9836675b3..630c909c527df7459e87b0ab239335e3
                  ServerLevel.this.updateSleepingPlayerList();
              }
 diff --git a/net/minecraft/server/players/PlayerList.java b/net/minecraft/server/players/PlayerList.java
-index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7e39ece5e 100644
+index e64ae03858d3f6e37aa44630203e0315bac5eb03..3e7ed544fbc2e4cd05e5208c5a8420236d974a1e 100644
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
 @@ -130,6 +130,7 @@ public abstract class PlayerList {
@@ -354,44 +354,54 @@ index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7
  
      // CraftBukkit start
      private org.bukkit.craftbukkit.CraftServer cserver;
-@@ -157,6 +158,115 @@ public abstract class PlayerList {
+@@ -157,6 +158,125 @@ public abstract class PlayerList {
  
      abstract public void loadAndSaveFiles(); // Paper - fix converting txt to json file; moved from DedicatedPlayerList constructor
  
 +    // Leaves start - replay mod api
 +    public void placeNewPhotographer(Connection connection, org.leavesmc.leaves.replay.ServerPhotographer player, ServerLevel worldserver) {
 +        player.isRealPlayer = true; // Paper
-+        player.loginTime = System.currentTimeMillis(); // Paper
++        player.loginTime = System.currentTimeMillis(); // Paper - Replace OfflinePlayer#getLastPlayed
 +
-+        ServerLevel worldserver1 = worldserver;
++        ServerLevel level = player.level();
++        player.setServerLevel(level);
 +
-+        player.setServerLevel(worldserver1);
-+        player.spawnIn(worldserver1);
-+        player.gameMode.setLevel(player.level());
-+
-+        LevelData worlddata = worldserver1.getLevelData();
-+
-+        ServerGamePacketListenerImpl playerconnection = new ServerGamePacketListenerImpl(this.server, connection, player, CommonListenerCookie.createInitial(player.gameProfile, false));
-+        GameRules gamerules = worldserver1.getGameRules();
-+        boolean flag = gamerules.get(GameRules.IMMEDIATE_RESPAWN);
-+        boolean flag1 = gamerules.get(GameRules.REDUCED_DEBUG_INFO);
-+        boolean flag2 = gamerules.get(GameRules.LIMITED_CRAFTING);
-+
-+        playerconnection.send(new ClientboundLoginPacket(player.getId(), worlddata.isHardcore(), this.server.levelKeys(), this.getMaxPlayers(), worldserver1.getWorld().getSendViewDistance(), worldserver1.getWorld().getSimulationDistance(), flag1, !flag, flag2, player.createCommonSpawnInfo(worldserver1), this.server.enforceSecureProfile())); // Paper - replace old player chunk management
++        LevelData levelData = level.getLevelData();
++        ServerGamePacketListenerImpl playerConnection = new ServerGamePacketListenerImpl(this.server, connection, player, CommonListenerCookie.createInitial(player.gameProfile, false));
++        GameRules gameRules = level.getGameRules();
++        boolean immediateRespawn = gameRules.get(GameRules.IMMEDIATE_RESPAWN);
++        boolean reducedDebugInfo = gameRules.get(GameRules.REDUCED_DEBUG_INFO);
++        boolean doLimitedCrafting = gameRules.get(GameRules.LIMITED_CRAFTING);
++        playerConnection.send(
++            new ClientboundLoginPacket(
++                player.getId(),
++                levelData.isHardcore(),
++                this.server.levelKeys(),
++                this.getMaxPlayers(),
++                io.papermc.paper.FeatureHooks.getViewDistance(level), // Paper - view distance
++                io.papermc.paper.FeatureHooks.getSimulationDistance(level), // Paper - simulation distance
++                reducedDebugInfo,
++                !immediateRespawn,
++                doLimitedCrafting,
++                player.createCommonSpawnInfo(level),
++                this.server.usesAuthentication(),
++                this.server.enforceSecureProfile()
++            )
++        );
 +        player.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
-+        playerconnection.send(new ClientboundChangeDifficultyPacket(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
-+        playerconnection.send(new ClientboundPlayerAbilitiesPacket(player.getAbilities()));
-+        playerconnection.send(new ClientboundSetHeldSlotPacket(player.getInventory().getSelectedSlot()));
++        playerConnection.send(new ClientboundChangeDifficultyPacket(levelData.getDifficulty(), levelData.isDifficultyLocked()));
++        playerConnection.send(new ClientboundPlayerAbilitiesPacket(player.getAbilities()));
++        playerConnection.send(new ClientboundSetHeldSlotPacket(player.getInventory().getSelectedSlot()));
 +        RecipeManager craftingmanager = this.server.getRecipeManager();
-+        playerconnection.send(new ClientboundUpdateRecipesPacket(craftingmanager.getSynchronizedItemProperties(), craftingmanager.getSynchronizedStonecutterRecipes()));
++        playerConnection.send(new ClientboundUpdateRecipesPacket(craftingmanager.getSynchronizedItemProperties(), craftingmanager.getSynchronizedStonecutterRecipes()));
 +
 +        this.sendPlayerPermissionLevel(player);
 +        player.getStats().markAllDirty();
 +        player.getRecipeBook().sendInitialRecipeBook(player);
-+        this.updateEntireScoreboard(worldserver1.getScoreboard(), player);
++        this.updateEntireScoreboard(level.getScoreboard(), player);
 +        this.server.invalidateStatus();
 +
-+        playerconnection.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
++        playerConnection.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
 +        ServerStatus serverping = this.server.getStatus();
 +
 +        if (serverping != null) {
@@ -407,7 +417,7 @@ index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7
 +        this.playersByUUID.put(player.getUUID(), player);
 +
 +        player.suppressTrackerForLogin = true;
-+        worldserver1.addNewPlayer(player);
++        level.addNewPlayer(player);
 +        this.server.getCustomBossEvents().onPlayerConnect(player);
 +        org.bukkit.craftbukkit.entity.CraftPlayer bukkitPlayer = player.getBukkitEntity();
 +
@@ -440,28 +450,28 @@ index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7
 +
 +        player.sentListPacket = true;
 +        player.suppressTrackerForLogin = false;
-+        ((ServerLevel) player.level()).getChunkSource().chunkMap.addEntity(player);
++        ((ServerLevel) player.level()).getChunkSource().addEntity(player);
 +
-+        this.sendLevelInfo(player, worldserver1);
++        this.sendLevelInfo(player, level);
 +
-+        if (player.level() == worldserver1 && !worldserver1.players().contains(player)) {
-+            worldserver1.addNewPlayer(player);
++        if (player.level() == level && !level.players().contains(player)) {
++            level.addNewPlayer(player);
 +            this.server.getCustomBossEvents().onPlayerConnect(player);
 +        }
 +
-+        worldserver1 = player.level();
++        level = player.level();
 +        java.util.Iterator<net.minecraft.world.effect.MobEffectInstance> iterator = player.getActiveEffects().iterator();
 +        while (iterator.hasNext()) {
 +            MobEffectInstance mobeffect = iterator.next();
-+            playerconnection.send(new ClientboundUpdateMobEffectPacket(player.getId(), mobeffect, false));
++            playerConnection.send(new ClientboundUpdateMobEffectPacket(player.getId(), mobeffect, false));
 +        }
 +
 +        if (player.isDeadOrDying()) {
-+            net.minecraft.core.Holder<net.minecraft.world.level.biome.Biome> plains = worldserver1.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.BIOME)
++            net.minecraft.core.Holder<net.minecraft.world.level.biome.Biome> plains = level.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.BIOME)
 +                .getOrThrow(net.minecraft.world.level.biome.Biomes.PLAINS);
 +            player.connection.send(new net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket(
-+                new net.minecraft.world.level.chunk.EmptyLevelChunk(worldserver1, player.chunkPosition(), plains),
-+                worldserver1.getLightEngine(), null, null, false)
++                new net.minecraft.world.level.chunk.EmptyLevelChunk(level, player.chunkPosition(), plains),
++                level.getLightEngine(), null, null, false)
 +            );
 +        }
 +    }
@@ -470,7 +480,7 @@ index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7
      public void placeNewPlayer(final Connection connection, final ServerPlayer player, final CommonListenerCookie cookie) {
          player.isRealPlayer = true; // Paper
          player.loginTime = System.currentTimeMillis(); // Paper - Replace OfflinePlayer#getLastPlayed
-@@ -224,6 +334,7 @@ public abstract class PlayerList {
+@@ -225,6 +345,7 @@ public abstract class PlayerList {
  
          // player.connection.send(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(this.players)); // CraftBukkit - replaced with loop below
          this.players.add(player);
@@ -478,7 +488,7 @@ index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7
          this.playersByName.put(player.getScoreboardName().toLowerCase(java.util.Locale.ROOT), player); // Spigot
          this.playersByUUID.put(player.getUUID(), player);
          this.addToSendAllPlayerInfoBuckets(player); // Gale - Purpur - spread out sending all player info
-@@ -431,6 +542,7 @@ public abstract class PlayerList {
+@@ -432,6 +553,7 @@ public abstract class PlayerList {
      }
  
      protected void save(final ServerPlayer player) {
@@ -486,7 +496,7 @@ index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7
          if (!player.getBukkitEntity().isPersistent()) return; // CraftBukkit
          player.lastSave = MinecraftServer.currentTick; // Paper - Incremental chunk and player saving
          this.playerIo.save(player);
-@@ -445,6 +557,43 @@ public abstract class PlayerList {
+@@ -446,6 +568,43 @@ public abstract class PlayerList {
          }
      }
  
@@ -512,7 +522,7 @@ index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7
 +
 +        worldserver.removePlayerImmediately(entityplayer, Entity.RemovalReason.UNLOADED_WITH_PLAYER);
 +        entityplayer.retireScheduler();
-+        entityplayer.getAdvancements().stopListening();
++        entityplayer.getAdvancements().clearTriggers();
 +        this.players.remove(entityplayer);
 +        this.playersByName.remove(entityplayer.getScoreboardName().toLowerCase(java.util.Locale.ROOT));
 +        this.server.getCustomBossEvents().onPlayerDisconnect(entityplayer);
@@ -530,15 +540,15 @@ index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7
      public net.kyori.adventure.text.@Nullable Component remove(final ServerPlayer player) { // CraftBukkit - return string // Paper - return Component
          // Paper start - Fix kick event leave message not being sent
          return this.remove(player, net.kyori.adventure.text.Component.translatable("multiplayer.player.left", net.kyori.adventure.text.format.NamedTextColor.YELLOW, io.papermc.paper.configuration.GlobalConfiguration.get().messages.useDisplayNameInQuitMessage ? player.getBukkitEntity().displayName() : io.papermc.paper.adventure.PaperAdventure.asAdventure(player.getDisplayName())));
-@@ -518,6 +667,7 @@ public abstract class PlayerList {
+@@ -519,6 +678,7 @@ public abstract class PlayerList {
          player.retireScheduler(); // Paper - Folia schedulers
-         player.getAdvancements().stopListening();
+         player.getAdvancements().clearTriggers();
          this.players.remove(player);
 +        this.realPlayers.remove(player); // Leaves - replay api
          this.playersByName.remove(player.getScoreboardName().toLowerCase(java.util.Locale.ROOT)); // Spigot
          if (org.dreeam.leaf.config.modules.misc.VanillaUsernameCheck.allowOldPlayersJoin) this.playedPlayers.remove(player.getGameProfile().name()); // Leaf - Configurable vanilla username check
          this.removeFromSendAllPlayerInfoBuckets(player); // Gale - Purpur - spread out sending all player info
-@@ -886,10 +1036,10 @@ public abstract class PlayerList {
+@@ -887,10 +1047,10 @@ public abstract class PlayerList {
      }
  
      public String[] getPlayerNamesArray() {
@@ -552,7 +562,7 @@ index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7
          }
  
          return names;
-@@ -977,7 +1127,7 @@ public abstract class PlayerList {
+@@ -978,7 +1138,7 @@ public abstract class PlayerList {
  
      // Paper start - whitelist verify event / login event
      public LoginResult canBypassFullServerLogin(final NameAndId nameAndId, final LoginResult currentResult) {
@@ -562,10 +572,10 @@ index db4b6b27f2391906657b768f3da9017427de36e4..47db522a285b43dd526d097b3b4107f7
              new com.destroystokyo.paper.profile.CraftPlayerProfile(nameAndId),
              io.papermc.paper.adventure.PaperAdventure.asAdventure(currentResult.message),
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index 0531fb44cb9043e29200c413275b01fd2d1a0364..b26fd130b2beee3cb76a1bc494ae052720976656 100644
+index 2a25d6c22f7f15c899a500cde4da09312200550b..bbd415ea81ae9c152ad9f3059d7052cc34454d24 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -261,7 +261,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -276,7 +276,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
      public int useItemRemaining;
      protected int fallFlyTicks;
      private long lastKineticHitFeedbackTime = -2147483648L;
