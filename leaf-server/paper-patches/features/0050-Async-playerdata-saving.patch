@@ -5,7 +5,7 @@ Subject: [PATCH] Async playerdata saving
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java b/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java
-index 7283eb950a0d1c92c451a0379d7a409d147bb84c..bfc9b34f39c828831b788814dd2a8c37bec93511 100644
+index de552ee1b59e8dd5b3d7c9ba5c578f28039d5ca5..c2c3fe9a875c6dbcb194af3906bc1b11260a3303 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java
 @@ -752,16 +752,7 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa

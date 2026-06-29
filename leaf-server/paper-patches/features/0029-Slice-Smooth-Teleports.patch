@@ -9,7 +9,7 @@ Original project: https://github.com/Cryptite/Slice
 Co-authored-by: HaHaWTH <102713261+HaHaWTH@users.noreply.github.com>
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 7a8c51cab79bb1f6f17a8f2638886ff3fbaf56d7..a9a7cbe25d39601ab4dec281b76941dd4c9941e4 100644
+index 1becf2db2f084e4fe2062520430175b2b1095329..9723ca1d72461cdc44f764f53042067c09b2480c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -1383,6 +1383,25 @@ public class CraftPlayer extends CraftHumanEntity implements Player, PluginMessa

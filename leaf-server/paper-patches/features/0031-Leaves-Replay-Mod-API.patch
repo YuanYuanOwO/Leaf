@@ -72,7 +72,7 @@ index 71d14d016e97e3fb93d2c10862afd0c314b9a367..acca726970f956331cdd85d0e05c8fbb
          if (entity instanceof EnderDragonPart complexPart) {
              if (complexPart.parentMob instanceof EnderDragon) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index a9a7cbe25d39601ab4dec281b76941dd4c9941e4..48b127349e4d59275064884d0b0d4301cfbddfe8 100644
+index 9723ca1d72461cdc44f764f53042067c09b2480c..a759f9d4ed68f9709981637fda118effc3be1c33 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -2150,7 +2150,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player, PluginMessa
