@@ -513,7 +513,7 @@ index 1aa8f1e0a3093a8b9e77213c56f987cd6ca7df86..de552ee1b59e8dd5b3d7c9ba5c578f28
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 4ad3230bde2a88c88dad8c1135d138760b53fd36..f6e4d459dbd41da4ef2ab963fabf24eee69216f2 100644
+index 2c01690971e20683225f0df799377df859ed9924..495da134739f278e0bcd4d2f377fa8b353513d0b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -411,6 +411,20 @@ public final class CraftServer implements Server {
@@ -661,7 +661,7 @@ index 4ad3230bde2a88c88dad8c1135d138760b53fd36..f6e4d459dbd41da4ef2ab963fabf24ee
 +    // Purpur end - Lagging threshold
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index faa57d7a4dc75a4c8d5c3feba7ae0b1b1fc72547..1a51e63c05dbe099433153f93449405bc0b3928f 100644
+index 335de83ba3e42ab0ac80d53a4efd0423e9a9965d..c107bc31bfd5cc01768b5abb4b4bfb173ea579a2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -1944,6 +1944,52 @@ public class CraftWorld extends CraftRegionAccessor implements World {
@@ -833,7 +833,7 @@ index eb7840449c035bc1bcfdc8f1bbccc5aaa7186ad6..d991a9875b9c2bdff1ad9336dc1922e6
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java b/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java
-index 6e2f931b06d4ef702e0abf609a5f5bba780c5b7a..15ae2653c1809041b7ab7cb67015e82c226e9f77 100644
+index f8753cf0d2fe368331278d2d0b54cc1eb9acd77c..79c7c105f8d267eaca587917541a500b4cf3930e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java
 +++ b/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java
 @@ -21,7 +21,12 @@ public class CraftConsoleCommandSender extends ServerCommandSender implements Co
@@ -853,7 +853,7 @@ index 6e2f931b06d4ef702e0abf609a5f5bba780c5b7a..15ae2653c1809041b7ab7cb67015e82c
 @@ -88,7 +93,7 @@ public class CraftConsoleCommandSender extends ServerCommandSender implements Co
  
      @Override
-     public void sendMessage(final net.kyori.adventure.identity.Identity identity, final net.kyori.adventure.text.Component message, final net.kyori.adventure.audience.MessageType type) {
+     public void sendMessage(final net.kyori.adventure.text.Component message) {
 -        this.sendRawMessage(net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().serialize(message));
 +        this.sendMessage(net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().serialize(message)); // Purpur - Rebrand
      }
@@ -1050,7 +1050,7 @@ index e7c9ffeabbc0f3891d0231d6bf770b5b01820296..266e37c45aa0d2fc4a40a9524de3a607
 +    // Purpur end - Item entity immunities
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index 74cb4d0c1e34ab6f225741edbd292dea40072b3b..3e1070730c13e05ab9351d6d42f85ed0e3144505 100644
+index fdde7295df235f67e3a3d7a06116ba886cf14413..a7fd65554e269615fd3502b9232a91c542307c88 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 @@ -496,7 +496,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
@@ -1062,7 +1062,7 @@ index 74cb4d0c1e34ab6f225741edbd292dea40072b3b..3e1070730c13e05ab9351d6d42f85ed0
          } else {
              this.getHandle().lastHurtByPlayer = null;
              this.getHandle().lastHurtByPlayerMemoryTime = 0;
-@@ -1138,4 +1138,16 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+@@ -1137,4 +1137,16 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
          manager.untrackWaypoint(getHandle());
          manager.trackWaypoint(getHandle());
      }
@@ -1121,10 +1121,10 @@ index db0e625d8ba721b0ad6913fe4a11ed8eb939d344..ecba9986915abdf59e8a71252949b6e4
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 261aeb211039a878ae1b91cddbc3bba75d41431c..0a4525baa7baa92365c1de6d3c49558fa4f06eee 100644
+index 41b77c94bad6761280ac61710e7c14e2c0cc2326..1becf2db2f084e4fe2062520430175b2b1095329 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -583,10 +583,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player, PluginMessa
+@@ -582,10 +582,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player, PluginMessa
  
      @Override
      public void setPlayerListName(String name) {
@@ -1141,7 +1141,7 @@ index 261aeb211039a878ae1b91cddbc3bba75d41431c..0a4525baa7baa92365c1de6d3c49558f
          if (this.getHandle().connection == null) return; // Paper - Updates are possible before the player has fully joined
          for (ServerPlayer player : this.server.getHandle().getPlayers()) {
              if (player.getBukkitEntity().canSee(this)) {
-@@ -987,6 +992,80 @@ public class CraftPlayer extends CraftHumanEntity implements Player, PluginMessa
+@@ -986,6 +991,80 @@ public class CraftPlayer extends CraftHumanEntity implements Player, PluginMessa
          }
      }
  
@@ -1222,7 +1222,7 @@ index 261aeb211039a878ae1b91cddbc3bba75d41431c..0a4525baa7baa92365c1de6d3c49558f
      @Override
      public void sendBlockDamage(Location loc, float progress, org.bukkit.entity.Entity source) {
          Preconditions.checkArgument(source != null, "source must not be null");
-@@ -2491,6 +2570,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player, PluginMessa
+@@ -2490,6 +2569,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player, PluginMessa
          return this.getHandle().getAbilities().getWalkingSpeed() * 2.0F;
      }
  
@@ -1336,7 +1336,7 @@ index 1e24ae8526915154e270c297af1438ba82190755..a1f274dffbba4a5cdc5199c194c66da0
  
          public static Variant minecraftHolderToBukkit(Holder<WolfVariant> minecraft) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 72bc687efb64e0b3b3802775b2d1b8b133b092fb..dfe878e2bcbf10c8b148b755db3e3ba05b575d8f 100644
+index a5ea91906abebf44cfbfa120c535b8c391ab1acd..f3fd610c520dfe4b854a0cca7df0f4e3e1ef0da2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 @@ -656,6 +656,15 @@ public class CraftEventFactory {

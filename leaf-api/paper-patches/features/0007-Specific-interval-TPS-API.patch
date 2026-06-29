@@ -7,10 +7,10 @@ License: GPL-3.0-only (https://www.gnu.org/licenses/gpl-3.0.html)
 Gale - https://galemc.org
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 29c59532f9fa5ac5d1364552db938c75106ccba8..21eec7c9bd9497b3315c1e954d2400fae0f7013c 100644
+index e9658f8377b9d91e117360ce44db8710b59f0499..dded639b4bb81d1da1a4563ba60c52635a380c96 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2437,6 +2437,35 @@ public final class Bukkit {
+@@ -2441,6 +2441,35 @@ public final class Bukkit {
          return server.getTPS();
      }
  

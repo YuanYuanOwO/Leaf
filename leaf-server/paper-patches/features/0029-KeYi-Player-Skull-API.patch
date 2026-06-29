@@ -7,10 +7,10 @@ Original license: MIT
 Original project: https://github.com/KeYiMC/KeYi
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 0a4525baa7baa92365c1de6d3c49558fa4f06eee..fc056447eb34bf4f1ee73d5b749db55f7e09d5da 100644
+index 1becf2db2f084e4fe2062520430175b2b1095329..7a8c51cab79bb1f6f17a8f2638886ff3fbaf56d7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3468,4 +3468,31 @@ public class CraftPlayer extends CraftHumanEntity implements Player, PluginMessa
+@@ -3465,4 +3465,31 @@ public class CraftPlayer extends CraftHumanEntity implements Player, PluginMessa
          super.knockback(strength, directionX, directionZ);
          this.entity.hurtMarked = true;
      }

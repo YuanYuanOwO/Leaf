@@ -5,10 +5,10 @@ Subject: [PATCH] optimize get chunk
 
 
 diff --git a/net/minecraft/world/level/Level.java b/net/minecraft/world/level/Level.java
-index de22114099358c047dce69378e2a0b0e4d685e17..f215c2e3b7b8bb977f264e0f5fd314e5c94375e5 100644
+index 7b5b35c206798a0ac904f7a7389a0468018dd11c..a1d43377cbc6a37fe3199ecf886b511c879b9904 100644
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
-@@ -1396,12 +1396,17 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -1395,12 +1395,17 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
              }
          }
          // CraftBukkit end

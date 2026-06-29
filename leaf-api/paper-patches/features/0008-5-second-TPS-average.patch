@@ -37,10 +37,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 21eec7c9bd9497b3315c1e954d2400fae0f7013c..ebf4641718c29e39fea9a112cfe025758f8b6fa5 100644
+index dded639b4bb81d1da1a4563ba60c52635a380c96..bd8ac41d50e0195b270eaa825539b51a292b2f0d 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2437,7 +2437,29 @@ public final class Bukkit {
+@@ -2441,7 +2441,29 @@ public final class Bukkit {
          return server.getTPS();
      }
  

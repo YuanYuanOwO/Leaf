@@ -96,10 +96,10 @@ index d5559c82f52532bfc8c6aea7c9b1a769c1e532c4..01fdddf69fca99b7d6f18ccf3a2ff96d
                      result.add(player);
                      if (result.size() >= limit) {
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 4a1f8e683c0070d8bf6d8d86361e9629b1c246d9..5930d6850848024dcb616e3e28ba7f89aab0fa6a 100644
+index 9d1b17d2814eba6bc8a817b093405328f234d16f..5fd52f4909f8dfaf821f6a91bf543de82b3fe7d5 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -1849,7 +1849,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1826,7 +1826,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      private ServerStatus.Players buildPlayerStatus() {
@@ -108,7 +108,7 @@ index 4a1f8e683c0070d8bf6d8d86361e9629b1c246d9..5930d6850848024dcb616e3e28ba7f89
          int maxPlayers = this.getMaxPlayers();
          if (this.hidesOnlinePlayers()) {
              return new ServerStatus.Players(maxPlayers, players.size(), List.of());
-@@ -2052,7 +2052,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2029,7 +2029,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @Override
      public int getPlayerCount() {
@@ -117,7 +117,7 @@ index 4a1f8e683c0070d8bf6d8d86361e9629b1c246d9..5930d6850848024dcb616e3e28ba7f89
      }
  
      public String[] getPlayerNames() {
-@@ -2269,7 +2269,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2246,7 +2246,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          int count = 0;
  
@@ -126,7 +126,7 @@ index 4a1f8e683c0070d8bf6d8d86361e9629b1c246d9..5930d6850848024dcb616e3e28ba7f89
              // Paper start - Expand PlayerGameModeChangeEvent
              org.bukkit.event.player.PlayerGameModeChangeEvent event = player.setGameMode(gameType, org.bukkit.event.player.PlayerGameModeChangeEvent.Cause.DEFAULT_GAMEMODE, null);
              if (event == null || event.isCancelled()) {
-@@ -2438,7 +2438,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2415,7 +2415,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                  if (Thread.currentThread() != this.serverThread) return; // Paper
                  // Paper start - we don't need to save everything, just advancements
                  // this.getPlayerList().saveAll();
@@ -135,7 +135,7 @@ index 4a1f8e683c0070d8bf6d8d86361e9629b1c246d9..5930d6850848024dcb616e3e28ba7f89
                      player.getAdvancements().save();
                  }
                  // Paper end - we don't need to save everything, just advancements
-@@ -2574,7 +2574,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2551,7 +2551,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              PlayerList playerList = this.getPlayerList();
              UserWhiteList whiteList = playerList.getWhiteList();
  
@@ -572,7 +572,7 @@ index e64ae03858d3f6e37aa44630203e0315bac5eb03..3e7ed544fbc2e4cd05e5208c5a842023
              new com.destroystokyo.paper.profile.CraftPlayerProfile(nameAndId),
              io.papermc.paper.adventure.PaperAdventure.asAdventure(currentResult.message),
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index 2a25d6c22f7f15c899a500cde4da09312200550b..bbd415ea81ae9c152ad9f3059d7052cc34454d24 100644
+index b814cc6769eab05c1c4d566e93ed6a45ded10df1..71408783d1a04e2053ba9f64ea5d0a78354a94e9 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
 @@ -276,7 +276,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin

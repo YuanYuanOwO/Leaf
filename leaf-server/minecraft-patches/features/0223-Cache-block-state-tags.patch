@@ -9,10 +9,10 @@ so that custom things injected by plugins, CraftEngine, for example, will not be
 So we need to init it again after the plugin loads (Double init, but it doesn't matter)
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 6a325f2cc601c0d3e96bad39d709c2945ad3adf5..acb07896463e49ce903525baa5f30e5504ef306d 100644
+index 437c73d45bdd5fed2ee9b19876950ad8f0176b39..b75ff0155c6a1c3a08f1c1da7ee47bee245ff270 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -1389,6 +1389,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1366,6 +1366,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              // Paper end
              org.spigotmc.WatchdogThread.hasStarted = true; // Paper
              org.dreeam.leaf.config.LeafConfig.regSparkExtraConfig(); // Leaf - Leaf config

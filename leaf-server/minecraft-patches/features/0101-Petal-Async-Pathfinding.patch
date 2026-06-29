@@ -19,10 +19,10 @@ This patch was ported downstream from the Petal fork.
 Makes most pathfinding-related work happen asynchronously
 
 diff --git a/net/minecraft/world/entity/Mob.java b/net/minecraft/world/entity/Mob.java
-index f38b7b36f8a18e96eb2cd4facb0df84e34da903b..2f4aae5d0d3cddbd5ed5bf860871de7cc1a79aaa 100644
+index 790e14523d60cf30438a21cf1ff39107301238b7..e175bb2b4fd8f80996e14a409ea3b4bb6e1de10f 100644
 --- a/net/minecraft/world/entity/Mob.java
 +++ b/net/minecraft/world/entity/Mob.java
-@@ -255,10 +255,12 @@ public abstract class Mob extends LivingEntity implements Targeting, EquipmentUs
+@@ -254,10 +254,12 @@ public abstract class Mob extends LivingEntity implements Targeting, EquipmentUs
  
      @Override
      public @Nullable LivingEntity getTarget() {
@@ -734,7 +734,7 @@ index 535cdcd8266dced3aca0e6b71806bbbd80c70228..017f6c04afc277fd5d06caaa93103638
 +    // Kaiiju end - petal - async path processing
  }
 diff --git a/net/minecraft/world/entity/animal/bee/Bee.java b/net/minecraft/world/entity/animal/bee/Bee.java
-index 2a623511d609cfd3b4a9e056e12f18d19c2d8a96..67983da8d7ae116d90a3dd2716c4c1a90736483e 100644
+index f4483f893c301e338595cc2e79e9fe9915b7bedd..2709a0387b29b30e137381bee663932910f15035 100644
 --- a/net/minecraft/world/entity/animal/bee/Bee.java
 +++ b/net/minecraft/world/entity/animal/bee/Bee.java
 @@ -940,6 +940,13 @@ public class Bee extends Animal implements NeutralMob {
@@ -791,7 +791,7 @@ index 814bd26dfca0acd77d77477e4a2794c7d42340fb..5fb636adc6de280255d6ceac96a89ca7
          }
      }
 diff --git a/net/minecraft/world/entity/animal/rabbit/Rabbit.java b/net/minecraft/world/entity/animal/rabbit/Rabbit.java
-index c83df47628d63cafa5d47f76948b80e303a9ef0b..124d447a6b7e6fb785641b39246434264c3a7030 100644
+index e48446be1ba64a46232966efcd9e5d1e90d7938a..666c5ea55f218aa2966533a7eb5324190331d6b3 100644
 --- a/net/minecraft/world/entity/animal/rabbit/Rabbit.java
 +++ b/net/minecraft/world/entity/animal/rabbit/Rabbit.java
 @@ -659,6 +659,14 @@ public class Rabbit extends Animal {
@@ -874,7 +874,7 @@ index 936369cc110899ac074221be0972bbf6dc7c5847..5f359095bd4981dd74c2916bbb13f4d8
              if (pos != null) {
                  double sqrDistToNextPos = this.distanceToSqr(pos.getX(), pos.getY(), pos.getZ());
 diff --git a/net/minecraft/world/level/block/ShulkerBoxBlock.java b/net/minecraft/world/level/block/ShulkerBoxBlock.java
-index 24514a5f7eea6c7830ce7951b2c2ed6ce344975b..31fa48781d72189507e08db53ddb9d403000fd81 100644
+index 69fa661e60d42fb928f67f17451fcda560d0bf81..80efd05f0de5297309877b9aa914262bfc15ff65 100644
 --- a/net/minecraft/world/level/block/ShulkerBoxBlock.java
 +++ b/net/minecraft/world/level/block/ShulkerBoxBlock.java
 @@ -166,9 +166,17 @@ public class ShulkerBoxBlock extends BaseEntityBlock {

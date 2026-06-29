@@ -61,18 +61,18 @@ index 427ce8cfd6f63e5c7ec7b264b15ab4111b947729..f069fc9d49cfe0f394847a7546fb81b8
      private Difficulty(final int value) {
          this.value = value;
 diff --git a/src/main/java/org/bukkit/Effect.java b/src/main/java/org/bukkit/Effect.java
-index 5e3e33ccbbcbcec5b8a9b7a09753d5de8963a7a2..7db11ba1781d1c267b4816d5dbfeda7046a47189 100644
+index ed450e67fd178ebec2879718910ddd0831d04dd5..7ea7164dec068e386f533850e75d5725f2c05dc2 100644
 --- a/src/main/java/org/bukkit/Effect.java
 +++ b/src/main/java/org/bukkit/Effect.java
-@@ -450,7 +450,7 @@ public enum Effect {
-     private final int id;
-     private final Type type;
-     private final java.util.List<Class<?>> data; // Paper - support multiple data types
--    private static final Map<Integer, Effect> BY_ID = Maps.newHashMap();
+@@ -549,7 +549,7 @@ public enum Effect {
+     public static final Effect PARTICLES_EGG_CRACK = EGG_CRACK;
+     //</editor-fold>
+ 
+-    private static final Map<Integer, Effect> BY_ID = new HashMap<>();
 +    private static final it.unimi.dsi.fastutil.ints.Int2ObjectMap<Effect> BY_ID = new it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap<>(); // Leaf - Replace data maps with optimized collection
  
-     Effect(int id, /*@NotNull*/ Type type) {
-         this(id, type, (Class<?>[]) null); // Paper - support multiple data types
+     private final int id;
+     private final Type type;
 diff --git a/src/main/java/org/bukkit/GameMode.java b/src/main/java/org/bukkit/GameMode.java
 index 796f75313255ecc8917819b28eaf12776f2e4ce3..a765121ed02516a9a1e8bf1823b978762107b14f 100644
 --- a/src/main/java/org/bukkit/GameMode.java

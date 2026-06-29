@@ -22,7 +22,7 @@ index 60e0d618c603caef5e3516c9fdfc63ff45a7cdff..d098f5a370862e40c85ace58d74986a6
      }
  }
 diff --git a/net/minecraft/world/entity/ai/goal/GoalSelector.java b/net/minecraft/world/entity/ai/goal/GoalSelector.java
-index fc748f2575e04b05438cfa3803f5ae23aeca3cb4..23cab7daca1357184205503c6719ddc562b4a006 100644
+index 0439543fbb25ddb974550fe9dbdaa479e330937d..7bb75f4ff6307190952eb97743497421db9f9d4b 100644
 --- a/net/minecraft/world/entity/ai/goal/GoalSelector.java
 +++ b/net/minecraft/world/entity/ai/goal/GoalSelector.java
 @@ -22,17 +22,24 @@ public class GoalSelector {
@@ -121,7 +121,7 @@ index fc748f2575e04b05438cfa3803f5ae23aeca3cb4..23cab7daca1357184205503c6719ddc5
 -                int wrappedGoalSize = goal.getFlags().size();
 -                for (int i = 0; i < wrappedGoalSize; ++i) {
 -                    final Goal.Flag flag = GOAL_FLAG_VALUES[Long.numberOfTrailingZeros(flagIterator)];
--                    flagIterator ^= ca.spottedleaf.concurrentutil.util.IntegerUtil.getTrailingBit(flagIterator);
+-                    flagIterator ^= ca.spottedleaf.common.util.IntegerUtil.getTrailingBit(flagIterator);
 -                    // Paper end
 -                    WrappedGoal currentGoal = this.lockedFlags.getOrDefault(flag, NO_GOAL);
 -                    currentGoal.stop();

@@ -9,10 +9,10 @@ Original project: https://github.com/snackbag/TT20
 Co-authored-by: MrlingXD <90316914+wling-art@users.noreply.github.com>
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index ae8d5a9391eed8f589909b281b02633106b1a33c..d596023585a45f036f669db2bed33cba483c4936 100644
+index bf8456b9455d0825a74116381abc5da7c7a354df..9077a799f5113ce598d1f5c6c72bfec8cfb8f747 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -1722,6 +1722,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1699,6 +1699,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          this.server.spark.tickStart(); // Paper - spark
          new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.tickCount+1).callEvent(); // Paper - Server Tick Events

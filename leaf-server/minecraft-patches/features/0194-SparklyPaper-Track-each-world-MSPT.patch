@@ -6,10 +6,10 @@ Subject: [PATCH] SparklyPaper: Track each world MSPT
 Original project: https://github.com/SparklyPower/SparklyPaper
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index ed3b4fe7802a17e684a91e9a4d8aa50c1086301b..b22ddcdd205467cce5e9be2dad207a5be804d0b1 100644
+index 0bd82f3e378f7408ae029ae3b68a6273927d605b..6040745fc27ada69cf30cd74b919e0bc4ad9c6b5 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -1892,7 +1892,16 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1869,7 +1869,16 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      // Leaf start - SparklyPaper - parallel world ticking - move level ticking logic out for branch convergence
      private void tickLevel(final ServerLevel level, final BooleanSupplier haveTime) {
          try {

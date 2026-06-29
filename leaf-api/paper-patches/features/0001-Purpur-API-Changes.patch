@@ -69,10 +69,10 @@ index 652ff54e7c50412503725d628bfe72ed03059790..fb1fe2651e53a9bf46b3632c638e13ee
       * Gets the {@code ServerBuildInfo}.
       *
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 6dc049664394818adea57835838afc448a4dd9f5..29c59532f9fa5ac5d1364552db938c75106ccba8 100644
+index d083e3e5f00aac3e5c48a248cae665f3517a4b4a..e9658f8377b9d91e117360ce44db8710b59f0499 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -3006,4 +3006,147 @@ public final class Bukkit {
+@@ -3010,4 +3010,147 @@ public final class Bukkit {
      public static void restart() {
          server.restart();
      }
@@ -870,10 +870,10 @@ index 332c55fd6b4b3a8c0cad920a6e765ecc40e684e4..10a8d64ad2da0be2c14f34c3e7d1957c
      // Paper start
      /**
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 2c68aae864a74adf70683eb3b17109aa96572413..49981db2398a3f88c1d62c91e35d637c4b92f876 100644
+index 1bf58def995673875abab5430b44888694a3364e..3f7dfe0b6d8ad57b34acdca85254029983fabd06 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -1322,4 +1322,59 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -1321,4 +1321,59 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      void broadcastHurtAnimation(@NotNull java.util.Collection<Player> players);
      // Paper end - broadcast hurt animation
@@ -1026,7 +1026,7 @@ index bcc6ba95bd21c7972865838c636a03f50b6c1f1a..c3fcd8dd7dbb1e1a18e17c014c1e6411
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/LivingEntity.java b/src/main/java/org/bukkit/entity/LivingEntity.java
-index 19a48dce7c2fa7cdfd9947aaff8f3a13ecb65932..74340a62d7e35786845998859add425f0da767ea 100644
+index cb2b09ca3829cf6d358233dbc8ddfc7fd05c4c14..cc802ad22e7d8e2d90bcec3e0829f12d17c36d8f 100644
 --- a/src/main/java/org/bukkit/entity/LivingEntity.java
 +++ b/src/main/java/org/bukkit/entity/LivingEntity.java
 @@ -1538,4 +1538,20 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
@@ -1076,13 +1076,13 @@ index bc84b892cae5fe7019a3ad481e9da79956efa1fe..48eb5b00c460cccde29d327cef1d63fc
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 5c3eb7d3cfabdfd18e91cdda0b8a1bfd9c250b3a..2e4e6b942b8b650e95848f459e7b351442a4cbdd 100644
+index e5947f299937a8100fd8c6b1456da9f9003c6b53..ec1b786f3a19ceb2b6d31810e2bb8f544eb12ac3 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -4013,4 +4013,123 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
-      */
-     @ApiStatus.Experimental
-     PlayerGameConnection getConnection();
+@@ -4020,4 +4020,123 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+     default ObjectContents asObjectContents() {
+         return this.getPlayerProfile().asObjectContents();
+     }
 +
 +    // Purpur start
 +    /**
@@ -1313,10 +1313,10 @@ index 01d020c8848479e2dadd540d9bb3cf30f60722c9..576822822328da0d15f04316a9d9a3f3
           * Damage: variable
           */
 diff --git a/src/main/java/org/bukkit/event/entity/EntityPotionEffectEvent.java b/src/main/java/org/bukkit/event/entity/EntityPotionEffectEvent.java
-index 61ff80a91c392e9e3c8eb393356b40721d28b6ec..f363f88c6b47a547ba020d621158b397ffee4997 100644
+index bd071ee390e796b1c8c21ec317a62b92c44d1b4a..df1167f6ea97b6c53877fc8586b1173e85e9a434 100644
 --- a/src/main/java/org/bukkit/event/entity/EntityPotionEffectEvent.java
 +++ b/src/main/java/org/bukkit/event/entity/EntityPotionEffectEvent.java
-@@ -218,6 +218,12 @@ public class EntityPotionEffectEvent extends EntityEvent implements Cancellable
+@@ -230,6 +230,12 @@ public class EntityPotionEffectEvent extends EntityEvent implements Cancellable
           * When all effects are removed due to a bucket of milk.
           */
          MILK,

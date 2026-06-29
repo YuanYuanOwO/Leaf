@@ -79,7 +79,7 @@ index 6e08d50794c4af4405f3e164a3fd46f376b3f78f..942c985ff067f163b4d4434625e71c90
  
      int getContainerSize();
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 1173bd0a7fe83ce33bcb13b5efe34837b249e693..a7a4a6fe27614c2e50eb3160d263e3f67d6f5ea3 100644
+index df75dfc3ee7c45181c02ce4fc01aa614293f6480..bb66147fc13c0c18730374e7634c6dbf080c1cfe 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -328,7 +328,7 @@ public abstract class Entity
@@ -281,10 +281,10 @@ index f267cf14bb602b4b6c4c009ce5999f95b8ed7be4..4b8ba29b8a1ea150eadf510b3e0590f9
      }
  
 diff --git a/net/minecraft/world/level/Level.java b/net/minecraft/world/level/Level.java
-index 45e0e8a3d5fefac3b470fed670e9412082456437..4adf98c7afc0a904ad78fba877bfa265cde68114 100644
+index 90009387d495db3fb3f68cd7d1ebe469b9aa1c9a..6e456da74355646a649473637386a391e98f1cc5 100644
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
-@@ -2309,4 +2309,25 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -2308,4 +2308,25 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
          return getWorld().getEnvironment() == org.bukkit.World.Environment.THE_END;
      }
      // Purpur end - Add allow water in end world option
@@ -425,7 +425,7 @@ index 3932da81757ea0ab7a41617165f5b64dc44ea3eb..7bf75794fcf9697b302123b18e967bbc
 +    // Leaves end - Lithium Sleeping Block Entity
  }
 diff --git a/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java b/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
-index 8471a4714f134cb6f530b3098ce18e7e875279de..85c1e88ec202c9ea48a2cd81d8e766afae39cdd3 100644
+index 2f65d55719b3fa24036142ecc3f5c10b75dfb372..d8abedff2db7147472079fdeae01ba5ca782d808 100644
 --- a/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
 @@ -39,7 +39,7 @@ import net.minecraft.world.level.storage.ValueOutput;
@@ -445,7 +445,7 @@ index 8471a4714f134cb6f530b3098ce18e7e875279de..85c1e88ec202c9ea48a2cd81d8e766af
      }
  
      @Override
-@@ -283,6 +284,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -284,6 +285,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
          if (changed) {
              setChanged(level, pos, state);
          }
@@ -453,7 +453,7 @@ index 8471a4714f134cb6f530b3098ce18e7e875279de..85c1e88ec202c9ea48a2cd81d8e766af
  
          if (usedLavaFromUnderneath) entity.items.set(1, ItemStack.EMPTY); // Purpur - Furnace uses lava from underneath
      }
-@@ -526,4 +528,57 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -527,4 +529,57 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
              this.getRecipesToAwardAndPopExperience(serverLevel, Vec3.atCenterOf(pos));
          }
      }
@@ -2123,7 +2123,7 @@ index fef616d7b92454a721f7a14941b62a8963080cc5..5209ee3d7477502365c787c9633abe45
 +    // Leaves end - Lithium Sleeping Block Entity
  }
 diff --git a/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java b/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java
-index 174e39fb109bef3dd27ebc14aa13f6faabb10547..2d693f7b1630abe4b7101a92cc58d281fafb7ffa 100644
+index d1a2e671509b51f0bfad1633b1cdc2be671fca81..4ed9f9530ea0836800b19f70e262f301f295158b 100644
 --- a/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java
 @@ -32,7 +32,7 @@ import net.minecraft.world.phys.AABB;
@@ -2221,7 +2221,7 @@ index ed26c0eb4e1acbb28987a72ec0c541b2fb681c54..1929fa0034ab1e97e8b154301d354f70
      }
  
 diff --git a/net/minecraft/world/level/chunk/LevelChunk.java b/net/minecraft/world/level/chunk/LevelChunk.java
-index 991013b687328ffe62a89326e628a4854674fc0a..d71babaf3df8a620d71a686b365e41283615a494 100644
+index 7bc485a7b86dc6195588d29f7688f61db93ebaac..83bd58a65b1b27ebddfeaf2477e00dbf6268246f 100644
 --- a/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -989,10 +989,12 @@ public class LevelChunk extends ChunkAccess implements DebugValueSource, ca.spot

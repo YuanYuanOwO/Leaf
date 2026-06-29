@@ -22,10 +22,10 @@ index 2f1e5c3de421bd07e30c417bf88935be85cf573c..702d368bb5cf11863197b92d17f03738
              }
  
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index 1a16efc9d815426d4b009cdfa40f82826fb0f691..6a325f2cc601c0d3e96bad39d709c2945ad3adf5 100644
+index 6040745fc27ada69cf30cd74b919e0bc4ad9c6b5..437c73d45bdd5fed2ee9b19876950ad8f0176b39 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -2016,6 +2016,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1993,6 +1993,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          profiler.popPush("server gui refresh");
  
          org.leavesmc.leaves.protocol.core.LeavesProtocolManager.handleTick(tickCount); // Leaves - protocol
@@ -34,7 +34,7 @@ index 1a16efc9d815426d4b009cdfa40f82826fb0f691..6a325f2cc601c0d3e96bad39d709c294
          for (Runnable tickable : this.tickables) {
              tickable.run();
 diff --git a/net/minecraft/server/level/ServerPlayer.java b/net/minecraft/server/level/ServerPlayer.java
-index d14e48b76df1d8129e30357d911acbb495407e14..1990c0b2977ec2ad4d9df934463a14b3b124bc4a 100644
+index 286572cec2746ea41b34fcdb72f91dcfb8771793..e1b2022e7e063bc1e30a7139f8d452e0810771ac 100644
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
 @@ -790,6 +790,7 @@ public class ServerPlayer extends Player implements ca.spottedleaf.moonrise.patc
@@ -46,7 +46,7 @@ index d14e48b76df1d8129e30357d911acbb495407e14..1990c0b2977ec2ad4d9df934463a14b3
  
      private void updatePlayerAttributes() {
 diff --git a/net/minecraft/server/network/ServerCommonPacketListenerImpl.java b/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
-index f564aaf75ca18b53035bb434d8f5a8e7672e17c4..25866d0f9bcb9d9eb27ed7c7274c2e9b2ea03721 100644
+index cd46b9c267721861c4383f278c23ccbc610bda0e..0b5990f297ec3586bec4be3512c23584e5ff7664 100644
 --- a/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 @@ -186,6 +186,12 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack

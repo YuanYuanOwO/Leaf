@@ -108,7 +108,7 @@ index 3b2856a08646869d519229dabdbf1b1b5e96510d..a652f267c629d2f5d4c6b3d00e834454
              }
              throw new IllegalStateException();
 diff --git a/io/papermc/paper/FeatureHooks.java b/io/papermc/paper/FeatureHooks.java
-index ac639f53b2001e8fe7185f64ab6f84e08efd7300..80784898d00141edabbedbbff337698a4f11a6ca 100644
+index 504fdb2c4000eafae4341ec8b24ce9cb0fcdc274..d600bd9f0b26005966eaba943fc38012c96599ea 100644
 --- a/io/papermc/paper/FeatureHooks.java
 +++ b/io/papermc/paper/FeatureHooks.java
 @@ -69,6 +69,14 @@ public final class FeatureHooks {
@@ -152,10 +152,10 @@ index ac639f53b2001e8fe7185f64ab6f84e08efd7300..80784898d00141edabbedbbff337698a
          return ObjectSets.unmodifiable(chunks);
      }
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
-index e6f60286d43ed530446b333afc133736a184908d..10947e7876f7fc3f5b02319b6cf77a20b82c83fd 100644
+index 349515df48c219896bcf4f0e0479b25b98da002c..0341cc572ee3f627830d074cae30596adb755ba2 100644
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -2007,6 +2007,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1984,6 +1984,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          // Leaf end - SparklyPaper - parallel world ticking
          this.isIteratingOverLevels = false; // Paper - Throw exception on world create while being ticked
  
@@ -164,7 +164,7 @@ index e6f60286d43ed530446b333afc133736a184908d..10947e7876f7fc3f5b02319b6cf77a20
          profiler.popPush("connection");
          this.tickConnection();
          profiler.popPush("players");
-@@ -2099,6 +2101,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2076,6 +2078,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          Map<ResourceKey<Level>, ServerLevel> newLevels = Maps.newLinkedHashMap(oldLevels);
          newLevels.remove(level.dimension());
          if (org.dreeam.leaf.config.modules.async.SparklyPaperParallelWorldTicking.enabled) level.tickExecutor.shutdown(); // Leaf - SparklyPaper - parallel world ticking (We remove it in here instead of ServerLevel.close() because ServerLevel.close() is never called!)
@@ -1080,7 +1080,7 @@ index bdf2fe4b7002c70104557b8f1fce5942ce0ce6ac..db4b8cec257c46f1562de6b6566ab47a
  
      @Override
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 7ac934ca5088b05ab266fbb17566f12bb7d3e1c0..49aaddbcbf4f48f58e551a910996920d0aa7b5a0 100644
+index 4f597a172fbb06640954449851d71ec2d387d49b..ff295aeff9ed0b78b4ca2a17451103132d82c2c6 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -899,6 +899,11 @@ public abstract class Entity
@@ -1096,10 +1096,10 @@ index 7ac934ca5088b05ab266fbb17566f12bb7d3e1c0..49aaddbcbf4f48f58e551a910996920d
      }
  
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index 43d739365f4d06412e0ff43a670e98559f9ee99a..3125963cf5850f6ce96f73b4fff3797677564eca 100644
+index 5212a2a85634b184e671f2031a7e68a6826ff50d..f1e34151b18ff3d0d9619ca2cd931fbbe161ff28 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -1040,6 +1040,13 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -1014,6 +1014,13 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
          }
      }
  
@@ -1113,7 +1113,7 @@ index 43d739365f4d06412e0ff43a670e98559f9ee99a..3125963cf5850f6ce96f73b4fff37976
      private void updateDirtyEffects() {
          if (this.effectsDirty) {
              this.updateInvisibilityStatus();
-@@ -3030,6 +3037,12 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -3008,6 +3015,12 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
          return this.equipment.get(slot);
      }
  

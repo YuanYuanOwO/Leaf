@@ -23,10 +23,10 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index ebf4641718c29e39fea9a112cfe025758f8b6fa5..1b5f3eb6c570e0565740a8b1f4bbb854db9db901 100644
+index bd8ac41d50e0195b270eaa825539b51a292b2f0d..d5303612c4a2edef5bdf455bc5bb98355aa6dea7 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -3042,6 +3042,20 @@ public final class Bukkit {
+@@ -3046,6 +3046,20 @@ public final class Bukkit {
      }
      // Paper end - Folia region threading API
  

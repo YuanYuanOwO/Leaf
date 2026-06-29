@@ -5,7 +5,7 @@ Subject: [PATCH] Optimize map lookups with isEmpty check
 
 
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index ce826f5910c5b932d228dcab28ef4f60beb16f1c..daa68257dc75f96435059ee516706acfeccc6d8a 100644
+index bc4986fb602408ffd9103e53b04d65af3b79f27b..4f157b0cccd70c323724c388ca7726dd316b7f85 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -266,6 +266,7 @@ public abstract class Entity
@@ -108,10 +108,10 @@ index ce826f5910c5b932d228dcab28ef4f60beb16f1c..daa68257dc75f96435059ee516706acf
      }
  
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index 3125963cf5850f6ce96f73b4fff3797677564eca..3c0feee7e0e4ad4b3d26dbd6264fbbac3fdc7fcd 100644
+index f1e34151b18ff3d0d9619ca2cd931fbbe161ff28..846364dd1c48e4148f89e42938dda7cc1e712e24 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -1203,7 +1203,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -1177,7 +1177,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
      }
  
      public boolean hasEffect(final Holder<MobEffect> effect) {
@@ -120,7 +120,7 @@ index 3125963cf5850f6ce96f73b4fff3797677564eca..3c0feee7e0e4ad4b3d26dbd6264fbbac
      }
  
      public @Nullable MobEffectInstance getEffect(final Holder<MobEffect> effect) {
-@@ -4351,7 +4351,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -4329,7 +4329,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
      // CraftBukkit start - collidable API
      @Override
      public boolean canCollideWithBukkit(Entity entity) {
@@ -130,10 +130,10 @@ index 3125963cf5850f6ce96f73b4fff3797677564eca..3c0feee7e0e4ad4b3d26dbd6264fbbac
      // CraftBukkit end
  
 diff --git a/net/minecraft/world/entity/Mob.java b/net/minecraft/world/entity/Mob.java
-index 38a8e9231e73ceaaf226c3572297aac23c0dd23f..8d36f445ef428eca27c3e6ec312f7db099b90a6b 100644
+index e175bb2b4fd8f80996e14a409ea3b4bb6e1de10f..484348e23b8710d07a6a33817cb80293ee905646 100644
 --- a/net/minecraft/world/entity/Mob.java
 +++ b/net/minecraft/world/entity/Mob.java
-@@ -1771,7 +1771,7 @@ public abstract class Mob extends LivingEntity implements Targeting, EquipmentUs
+@@ -1754,7 +1754,7 @@ public abstract class Mob extends LivingEntity implements Targeting, EquipmentUs
          if (!player.getItemInHand(hand).isEmpty()) {
              return InteractionResult.PASS;
          }

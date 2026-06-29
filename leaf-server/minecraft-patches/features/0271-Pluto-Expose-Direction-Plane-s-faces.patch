@@ -100,10 +100,10 @@ index 187cca14c69b2b472770d949cf61e4c0b7e098c6..668316a966bed87f2ef4aa8a9c5bf194
                  }
              }
 diff --git a/net/minecraft/world/level/Level.java b/net/minecraft/world/level/Level.java
-index 8c40e15e7f39bbb7df5242b77aea258655465f37..45e0e8a3d5fefac3b470fed670e9412082456437 100644
+index 8658c54d489a0f9561b19dd371346c0acb7c9fd5..90009387d495db3fb3f68cd7d1ebe469b9aa1c9a 100644
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
-@@ -2151,7 +2151,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
+@@ -2150,7 +2150,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
      public abstract Scoreboard getScoreboard();
  
      public void updateNeighbourForOutputSignal(final BlockPos pos, final Block changedBlock) {
@@ -563,7 +563,7 @@ index eefc3c2965b69ab008005940b3d8e9516400bd31..c4e1c648c2520381365240d4c916675d
                                          doorDirs.add(direction);
                                      }
 diff --git a/net/minecraft/world/level/material/FlowingFluid.java b/net/minecraft/world/level/material/FlowingFluid.java
-index 1c0df4521b4b4b9db3b26486099fb61109db1f35..26688d1401f76e5751d9f7149b5a2016c10d87ec 100644
+index e468b9729f2e70ec21e5be14e03a74d28cd64a6d..c201f29d55bd97dd1dad58e0cadd25a08e04c8d7 100644
 --- a/net/minecraft/world/level/material/FlowingFluid.java
 +++ b/net/minecraft/world/level/material/FlowingFluid.java
 @@ -99,7 +99,7 @@ public abstract class FlowingFluid extends Fluid {

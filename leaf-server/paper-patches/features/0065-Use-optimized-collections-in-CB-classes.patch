@@ -27,7 +27,7 @@ index 67faf3eef899b320a17239c64cd900e1dfccaf60..1cfca5b913f997f6e9229d598748883b
          FACTORIES_BY_BLOCK_ENTITY_TYPE.put(type, factory);
      }
 diff --git a/src/main/java/org/bukkit/craftbukkit/boss/CraftBossBar.java b/src/main/java/org/bukkit/craftbukkit/boss/CraftBossBar.java
-index 3b2220d895a6231372595ccf0c249e1bb2b042f0..13d97738afca618182f426c8cb0563a5c2695685 100644
+index f499c02b2ff2d436fbf7759f1e865e14f5268de7..fdbd4a89a8865c7f5c073a22c627e7185414248d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/boss/CraftBossBar.java
 +++ b/src/main/java/org/bukkit/craftbukkit/boss/CraftBossBar.java
 @@ -50,7 +50,7 @@ public class CraftBossBar implements BossBar {
@@ -70,10 +70,10 @@ index a456cc637e2a990354852d8537787af9cd7eb670..82938d46c8e01461337aab483a9718e2
      private CraftInventoryCreator() {
          this.converterMap.put(InventoryType.CHEST, this.defaultConverter);
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index dacf1f8351e8cb2123f88357bbb7853223105116..c3c109c15da160d140ad553fd608b2db1143811d 100644
+index 308a22e02ec2ca0d8743d4e74e7a24cdb12462bf..b260a46dc1157045897ee385b18dceb9091abf9a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-@@ -124,10 +124,12 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -119,10 +119,12 @@ public final class CraftMagicNumbers implements UnsafeValues {
      }
  
      // ========================================================================
