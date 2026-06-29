@@ -110,7 +110,7 @@ public final class DespawnMap implements Consumer<Entity> {
         }
 
         // WitherBoss#checkDespawn
-        if (difficultyIsPeaceful && mob.shouldDespawnInPeaceful()) {
+        if (difficultyIsPeaceful && !mob.getType().isAllowedInPeaceful()) {
             return true;
         }
         mob.noActionTime = 0;
@@ -119,7 +119,7 @@ public final class DespawnMap implements Consumer<Entity> {
     }
 
     private boolean checkDespawnMob(Mob mob) {
-        if (difficultyIsPeaceful && mob.shouldDespawnInPeaceful()) {
+        if (difficultyIsPeaceful && !mob.getType().isAllowedInPeaceful()) {
             return true;
         }
 

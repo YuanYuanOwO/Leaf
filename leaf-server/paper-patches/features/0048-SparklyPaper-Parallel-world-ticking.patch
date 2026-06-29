@@ -349,7 +349,7 @@ index c107bc31bfd5cc01768b5abb4b4bfb173ea579a2..17b78e7833d20496fe77b3c5ffa498dd
      }
      // Paper end
 diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java b/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
-index b268124185489a2e084474dc5845e79430a3e9d0..edea254fdff7cd8ffb58361a54b143838fe0fe24 100644
+index b268124185489a2e084474dc5845e79430a3e9d0..cbb4b5622f9e434289045e12520efa185ce6195d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
 +++ b/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
 @@ -77,8 +77,97 @@ public class CraftBlock implements Block {
@@ -433,7 +433,7 @@ index b268124185489a2e084474dc5845e79430a3e9d0..edea254fdff7cd8ffb58361a54b14383
 +
 +            if (needsBuffering(level)) {
 +                // Buffered path
-+                return executeBufferedRead(level, org.dreeam.leaf.async.world.ReadOperationType.BLOCK_GET_NMS_STATE, new Object[]{this.position}, Blocks.AIR.defaultBlockState(), "getBlockState");
++                return executeBufferedRead(level, org.dreeam.leaf.async.world.ReadOperationType.BLOCK_GET_NMS_STATE, new Object[]{this.position}, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), "getBlockState");
 +            } else {
 +                // Strict/Disabled/Non-ServerLevel path
 +                checkStrictMode(level, "getBlockState");
@@ -441,7 +441,7 @@ index b268124185489a2e084474dc5845e79430a3e9d0..edea254fdff7cd8ffb58361a54b14383
 +                    return this.level.getBlockState(this.position);
 +                } catch (Exception e) {
 +                    org.bukkit.Bukkit.getLogger().log(java.util.logging.Level.SEVERE, "PWT: Direct access failed for getBlockState" + (level == null ? " (Not a ServerLevel)" : ""), e);
-+                    return Blocks.AIR.defaultBlockState();
++                    return net.minecraft.world.level.block.Blocks.AIR.defaultBlockState();
 +                }
 +            }
 +        } else {
