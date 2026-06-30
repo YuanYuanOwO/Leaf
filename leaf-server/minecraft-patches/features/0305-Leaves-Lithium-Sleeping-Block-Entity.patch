@@ -269,10 +269,10 @@ index 223e27bd1bdc7a27e6f0e9490b0544c05d143ab9..e9f4900ef7837372f83e9480faa1b15e
              ItemStack itemStack = container.getItem(i);
              if (!itemStack.isEmpty()) {
 diff --git a/net/minecraft/world/item/ItemStack.java b/net/minecraft/world/item/ItemStack.java
-index f267cf14bb602b4b6c4c009ce5999f95b8ed7be4..4b8ba29b8a1ea150eadf510b3e0590f9acea8653 100644
+index ab7a412c1131d3f7ee094c76d05916826712eefc..b5c649b93e8f1e9efb505a18b147dcccf8ea7927 100644
 --- a/net/minecraft/world/item/ItemStack.java
 +++ b/net/minecraft/world/item/ItemStack.java
-@@ -1019,6 +1019,7 @@ public final class ItemStack implements DataComponentHolder, ItemInstance, net.c
+@@ -1027,6 +1027,7 @@ public final class ItemStack implements DataComponentHolder, ItemInstance, net.c
      // CraftBukkit end
  
      public <T> @Nullable T set(final DataComponentType<T> type, final @Nullable T value) {
