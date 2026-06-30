@@ -5,26 +5,35 @@ Subject: [PATCH] PlayerInventoryOverflowEvent
 
 
 diff --git a/src/main/java/org/bukkit/event/HandlerList.java b/src/main/java/org/bukkit/event/HandlerList.java
-index ef9d9f3ddaf25aa990715139e1916672f76c35e5..32f515ff35c584d73b9a6173d5774cb568fb53ed 100644
+index ef9d9f3ddaf25aa990715139e1916672f76c35e5..13ab01b4fff89f43028e25d983cc522aac946c69 100644
 --- a/src/main/java/org/bukkit/event/HandlerList.java
 +++ b/src/main/java/org/bukkit/event/HandlerList.java
-@@ -64,6 +64,7 @@ public class HandlerList {
+@@ -38,6 +38,8 @@ public class HandlerList {
+      */
+     private static final java.util.Set<String> EVENT_TYPES = java.util.concurrent.ConcurrentHashMap.newKeySet();
+ 
++    public static short isListeningInvOverflowCached = -1; // Leaf - PlayerInventoryOverflowEvent
++
+     /**
+      * Bake all handler lists. Best used just after all normal event
+      * registration is complete, ie just after all plugins are loaded if
+@@ -64,6 +66,7 @@ public class HandlerList {
                      h.handlers = null;
                  }
              }
-+            org.dreeam.leaf.event.player.PlayerInventoryOverflowEvent.isListeningInvOverflowCached = -1; // Leaf - PlayerInventoryOverflowEvent
++            isListeningInvOverflowCached = -1; // Leaf - PlayerInventoryOverflowEvent
          }
      }
  
-@@ -144,6 +145,7 @@ public class HandlerList {
+@@ -144,6 +147,7 @@ public class HandlerList {
      public synchronized void unregister(@NotNull RegisteredListener listener) {
          if (handlerslots.get(listener.getPriority()).remove(listener)) {
              handlers = null;
-+            org.dreeam.leaf.event.player.PlayerInventoryOverflowEvent.isListeningInvOverflowCached = -1; // Leaf - PlayerInventoryOverflowEvent
++            isListeningInvOverflowCached = -1; // Leaf - PlayerInventoryOverflowEvent
          }
      }
  
-@@ -162,7 +164,12 @@ public class HandlerList {
+@@ -162,7 +166,12 @@ public class HandlerList {
                  }
              }
          }
@@ -32,13 +41,13 @@ index ef9d9f3ddaf25aa990715139e1916672f76c35e5..32f515ff35c584d73b9a6173d5774cb5
 +        // Leaf start - PlayerInventoryOverflowEvent
 +        if (changed) {
 +            handlers = null;
-+            org.dreeam.leaf.event.player.PlayerInventoryOverflowEvent.isListeningInvOverflowCached = -1;
++            isListeningInvOverflowCached = -1;
 +        }
 +        // Leaf end - PlayerInventoryOverflowEvent
      }
  
      /**
-@@ -180,7 +187,12 @@ public class HandlerList {
+@@ -180,7 +189,12 @@ public class HandlerList {
                  }
              }
          }
@@ -46,7 +55,7 @@ index ef9d9f3ddaf25aa990715139e1916672f76c35e5..32f515ff35c584d73b9a6173d5774cb5
 +        // Leaf start - PlayerInventoryOverflowEvent
 +        if (changed) {
 +            handlers = null;
-+            org.dreeam.leaf.event.player.PlayerInventoryOverflowEvent.isListeningInvOverflowCached = -1;
++            isListeningInvOverflowCached = -1;
 +        }
 +        // Leaf end - PlayerInventoryOverflowEvent
      }
