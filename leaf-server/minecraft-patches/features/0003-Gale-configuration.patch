@@ -99,10 +99,10 @@ index 9b198882584e7fd41b88e3a23c76f7230fc7db45..5e6acfe62dc17240e3422a28eac6443b
          // Paper start - fix converting txt to json file; convert old users earlier after PlayerList creation but before file load/save
          if (this.convertOldUsers()) {
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index ca39cddc5d7bccbea4ce8ed95354c7529dd93072..2f5e60e84d1600ead3f88709b0d946fc495286a1 100644
+index 50a1fe6bd9f7e6cf79e48e1420fbe153c902bddb..cf601362ad9a250f7c9e7290620c2c4cc9e6ade4 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -637,7 +637,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -635,7 +635,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          savedDataStorage.set(io.papermc.paper.world.saveddata.PaperWorldPDC.TYPE, loadedWorldData.pdc() == null ? io.papermc.paper.world.saveddata.PaperWorldPDC.TYPE.constructor().get() : loadedWorldData.pdc());
          final GameRules gameRules = new GameRules(server.getWorldData().enabledFeatures(), savedDataStorage.computeIfAbsent(net.minecraft.world.level.gamerules.GameRuleMap.TYPE));
          this.gameRules = gameRules;

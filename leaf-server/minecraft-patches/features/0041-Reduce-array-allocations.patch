@@ -153,10 +153,10 @@ index d7e5e8541fde613a5b82da59a1e2b95e0497fe61..bbcb768f587305223c67d30186d62e70
                  if (!itemStack.isEmpty()) {
                      slots.add(Pair.of(slot, itemStack.copy()));
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index 87ad797f429ea6f82011eb3d624c42fc6ed848ab..ed4cb23b0be057dc9bf9f6b025393c8d60a525d6 100644
+index 83eb53d1f758bd5b9623e355b26b63318f836a14..e8734393150163434f161052c75506667eec51de 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -1465,7 +1465,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1462,7 +1462,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
      public static List<Entity> getCurrentlyTickingEntities() {
          Entity ticking = currentlyTickingEntity.get();
@@ -281,7 +281,7 @@ index 4b018c64d3123bb7a0687491d2ac3a535302890c..0e4d6c9a35d29c240a0cf30694211ea3
  
      private static Map<EquipmentSlot, Float> createForAllSlots(final List<EquipmentSlot> slots, final float dropChance) {
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index f7ef7706c3ae08683ee4ce4e9c9e8c903177ec97..599301e2d650ca5b0f1b4f0d0fd2b9c9a19d9bec 100644
+index 93797494b16a3bf9f14517c804b1506ed01c3330..a4b1ca2e229b4d31b33a40589f8a4c85e734eebe 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
 @@ -3671,7 +3671,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
@@ -479,7 +479,7 @@ index 7ef63a242b0d32f6f6d1a95d7331f36921fbd029..734a8fe92417aff18fb3964df2c90f46
      // Paper end - rewrite chunk system
  
 diff --git a/net/minecraft/world/level/block/ComposterBlock.java b/net/minecraft/world/level/block/ComposterBlock.java
-index 76f005a4309c0d64d37d27bc1678605f85a17c48..f5b3b13c181419422ec09d539e1c4004d624b776 100644
+index ba5ffa84105a6101c4fe8652a112a00ce40cb4d4..c2d207e25c25c3d7cc7b098286d80ca3ac1747b8 100644
 --- a/net/minecraft/world/level/block/ComposterBlock.java
 +++ b/net/minecraft/world/level/block/ComposterBlock.java
 @@ -463,7 +463,7 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {

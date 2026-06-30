@@ -356,7 +356,7 @@ index 4d3253d0ee397342c1534be7860e7480d467dfbb..4501239dd1865e4d079f4dc2aaa6c66a
                  continue;
              }
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index 0d9e335655e7b74cc6c01ee2ace6d5d442a06bae..6febf3cd854ecd9275d405b4ad42c7e68731eaa1 100644
+index f791c41b05932b751c69cde8c90294d18a12024b..75cb41838d37863fbd905256db9c76e8459fcf17 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
 @@ -196,7 +196,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
@@ -368,9 +368,9 @@ index 0d9e335655e7b74cc6c01ee2ace6d5d442a06bae..6febf3cd854ecd9275d405b4ad42c7e6
      private final ServerWaypointManager waypointManager;
      private EnvironmentAttributeSystem environmentAttributes;
      // Paper - rewrite chunk system
-@@ -223,6 +223,11 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
-     private double preciseTime; // Purpur - Configurable daylight cycle
-     private boolean forceTime; // Purpur - Configurable daylight cycle
+@@ -221,6 +221,11 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+     private final StructureCheck structureCheck;
+     private final boolean tickTime;
      private final LevelDebugSynchronizers debugSynchronizers = new LevelDebugSynchronizers(this);
 +    // Leaf start - SparklyPaper - parallel world ticking
 +    public final java.util.concurrent.ExecutorService tickExecutor;
@@ -380,9 +380,9 @@ index 0d9e335655e7b74cc6c01ee2ace6d5d442a06bae..6febf3cd854ecd9275d405b4ad42c7e6
  
      // CraftBukkit start
      private final ResourceKey<LevelStem> typeKey;
-@@ -765,6 +770,15 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -762,6 +767,15 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+         // Paper end - rewrite chunk system
          this.getCraftServer().addWorld(this.getWorld()); // CraftBukkit
-         this.preciseTime = this.serverLevelData.getGameTime(); // Purpur - Configurable daylight cycle
          this.realPlayers = Lists.newArrayList(); // Leaves - skip
 +        // Leaf start - SparklyPaper - parallel world ticking
 +        if (org.dreeam.leaf.config.modules.async.SparklyPaperParallelWorldTicking.enabled) {
@@ -396,7 +396,7 @@ index 0d9e335655e7b74cc6c01ee2ace6d5d442a06bae..6febf3cd854ecd9275d405b4ad42c7e6
      }
  
      // Paper start
-@@ -818,10 +832,147 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -815,10 +829,147 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          return previous;
      }
  
@@ -544,7 +544,7 @@ index 0d9e335655e7b74cc6c01ee2ace6d5d442a06bae..6febf3cd854ecd9275d405b4ad42c7e6
          TickRateManager tickRateManager = this.tickRateManager();
          boolean runs = tickRateManager.runsNormally();
          if (runs) {
-@@ -832,6 +983,12 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -829,6 +980,12 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              profiler.pop();
          }
  
@@ -557,7 +557,7 @@ index 0d9e335655e7b74cc6c01ee2ace6d5d442a06bae..6febf3cd854ecd9275d405b4ad42c7e6
          int percentage = this.getGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
          if (this.purpurConfig.playersSkipNight && this.sleepStatus.areEnoughSleeping(percentage) && this.sleepStatus.areEnoughDeepSleeping(percentage, this.players)) { // Purpur - Config for skipping night
              Optional<Holder<WorldClock>> defaultClock = this.dimensionType().defaultClock();
-@@ -937,6 +1094,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -934,6 +1091,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
                                          entity.discard(org.bukkit.event.entity.EntityRemoveEvent.Cause.DISCARD);
                                          // Paper end - Prevent block entity and entity crashes
                                      }
@@ -565,7 +565,7 @@ index 0d9e335655e7b74cc6c01ee2ace6d5d442a06bae..6febf3cd854ecd9275d405b4ad42c7e6
                                      this.moonrise$midTickTasks(); // Paper - rewrite chunk system
                                      // Gale end - Airplane - remove lambda from ticking guard - copied from guardEntityTick
                                      profiler.pop();
-@@ -1445,7 +1603,10 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1442,7 +1600,10 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              fluidState.tick(this, pos, blockState);
          }
          // Paper start - rewrite chunk system
@@ -577,7 +577,7 @@ index 0d9e335655e7b74cc6c01ee2ace6d5d442a06bae..6febf3cd854ecd9275d405b4ad42c7e6
              ((ca.spottedleaf.moonrise.patches.chunk_system.server.ChunkSystemMinecraftServer)this.server).moonrise$executeMidTickTasks();
          }
          // Paper end - rewrite chunk system
-@@ -1458,7 +1619,10 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1455,7 +1616,10 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              state.tick(this, pos, this.random);
          }
          // Paper start - rewrite chunk system
@@ -589,7 +589,7 @@ index 0d9e335655e7b74cc6c01ee2ace6d5d442a06bae..6febf3cd854ecd9275d405b4ad42c7e6
              ((ca.spottedleaf.moonrise.patches.chunk_system.server.ChunkSystemMinecraftServer)this.server).moonrise$executeMidTickTasks();
          }
          // Paper end - rewrite chunk system
-@@ -1710,6 +1874,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1707,6 +1871,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      }
  
      private void addPlayer(final ServerPlayer player) {
@@ -597,7 +597,7 @@ index 0d9e335655e7b74cc6c01ee2ace6d5d442a06bae..6febf3cd854ecd9275d405b4ad42c7e6
          Entity existing = this.getEntity(player.getUUID());
          if (existing != null) {
              LOGGER.warn("Force-added player with duplicate UUID {}", player.getUUID());
-@@ -1722,7 +1887,13 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1719,7 +1884,13 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
      // CraftBukkit start
      private boolean addEntity(final Entity entity, final org.bukkit.event.entity.CreatureSpawnEvent.@Nullable SpawnReason spawnReason) {
@@ -777,7 +777,7 @@ index b9748a392c9f76e61a1b673085b4dd74c007c70d..6774051521794990278d5ef5cf6b3dab
          for (ServerPlayer player : this.players) {
              this.createConnection(player, waypoint);
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 4ae9df5fe397f87debacf26d624a9129a63a7dc5..631ad693aff37b2167776b55a28ddf7596e52521 100644
+index 35888fa7adeabf54fe9a44f69c79b7c5ac247d49..02f02a8a36a4fcf28bf137393f6b6ac0cb8fd535 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -3667,13 +3667,7 @@ public abstract class Entity

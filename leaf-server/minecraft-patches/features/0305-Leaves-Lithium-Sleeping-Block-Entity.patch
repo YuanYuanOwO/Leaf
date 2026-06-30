@@ -54,10 +54,10 @@ index f2c5a6ce769d8a5fdb4b836eae6a61a4da91cb3f..c6ce0318e27ca49d9bb68f425ab92089
      }
  
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index 3edb713c57815c54f8798c003f0b00e7a5c02f30..fcef9558f4192165c7e2ab1905abee44b8b186e5 100644
+index 530fa6ba3426aace957eca1bc98371b92246b90b..9e02d451fb2c13bd015d3851945e1430cbc71bee 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -2890,6 +2890,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2887,6 +2887,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
          for (TickingBlockEntity ticker : this.blockEntityTickers) {
              BlockPos blockPos = ticker.getPos();
@@ -79,7 +79,7 @@ index 6e08d50794c4af4405f3e164a3fd46f376b3f78f..942c985ff067f163b4d4434625e71c90
  
      int getContainerSize();
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index df75dfc3ee7c45181c02ce4fc01aa614293f6480..bb66147fc13c0c18730374e7634c6dbf080c1cfe 100644
+index 2eae5f403be68f83f40657cf5ccbff8aecae6adb..32522db0ef77c07cb3a67bc8dab13db6a36bb8e2 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -328,7 +328,7 @@ public abstract class Entity
@@ -311,7 +311,7 @@ index 90009387d495db3fb3f68cd7d1ebe469b9aa1c9a..6e456da74355646a649473637386a391
 +    // Leaves end - Lithium Sleeping Block Entity
  }
 diff --git a/net/minecraft/world/level/block/ComposterBlock.java b/net/minecraft/world/level/block/ComposterBlock.java
-index f5b3b13c181419422ec09d539e1c4004d624b776..a07d7971921b6067c7a418fdb7d0be919c4208bd 100644
+index c2d207e25c25c3d7cc7b098286d80ca3ac1747b8..a0f1f0e7b10ed625d19b38a8391ac371f58e1d2d 100644
 --- a/net/minecraft/world/level/block/ComposterBlock.java
 +++ b/net/minecraft/world/level/block/ComposterBlock.java
 @@ -455,7 +455,7 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {

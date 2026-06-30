@@ -129,7 +129,7 @@ index 8f30f9f0f12e5fd6ddcb1809195f0823ea3ebd51..1cf50c7f3d32270f3cbfa36eb2ac79f4
          return ProjectileUtil.getMobArrow(this, projectile, power, firingWeapon);
      }
 diff --git a/net/minecraft/world/entity/player/Player.java b/net/minecraft/world/entity/player/Player.java
-index 96d2fab66cbb3cfe31f610d48f85298fd2810813..f1947539ccfe0b1eaa585a4a1f9123fe627cf243 100644
+index 2a0ae51cb0450f80abeaf3d858206512e9c6a4f3..0b4689abdc02251b5aa79f4e15331821a5cc67c3 100644
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
 @@ -1837,7 +1837,10 @@ public abstract class Player extends Avatar implements ContainerUser {
@@ -153,7 +153,7 @@ index 96d2fab66cbb3cfe31f610d48f85298fd2810813..f1947539ccfe0b1eaa585a4a1f9123fe
          } else {
              return 0;
 diff --git a/org/purpurmc/purpur/PurpurWorldConfig.java b/org/purpurmc/purpur/PurpurWorldConfig.java
-index 4f85343fb87814db2a4603832f88296ae72cdb43..f7506073bdf1153e16c4179e5a9d918b6131a8fe 100644
+index 195b619d54011602ebd4b267904bb4600e19aa04..d00c412c2b649614bc1aee463109e201abc76c94 100644
 --- a/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -477,6 +477,7 @@ public class PurpurWorldConfig {
@@ -172,7 +172,7 @@ index 4f85343fb87814db2a4603832f88296ae72cdb43..f7506073bdf1153e16c4179e5a9d918b
      }
  
      public boolean silkTouchEnabled = false;
-@@ -2542,6 +2544,10 @@ public class PurpurWorldConfig {
+@@ -2597,6 +2599,10 @@ public class PurpurWorldConfig {
      public boolean phantomAllowGriefing = false;
      public String phantomMaxHealth = "20.0";
      public String phantomAttackDamage = "6 + size";
@@ -183,7 +183,7 @@ index 4f85343fb87814db2a4603832f88296ae72cdb43..f7506073bdf1153e16c4179e5a9d918b
      public Map<Integer, Double> phantomMaxHealthCache = new HashMap<>();
      public Map<Integer, Double> phantomAttackDamageCache = new HashMap<>();
      public double phantomAttackedByCrystalRadius = 0.0D;
-@@ -2580,6 +2586,10 @@ public class PurpurWorldConfig {
+@@ -2635,6 +2641,10 @@ public class PurpurWorldConfig {
          }
          phantomMaxHealth = getString("mobs.phantom.attributes.max_health", phantomMaxHealth);
          phantomAttackDamage = getString("mobs.phantom.attributes.attack_damage", phantomAttackDamage);
@@ -194,7 +194,7 @@ index 4f85343fb87814db2a4603832f88296ae72cdb43..f7506073bdf1153e16c4179e5a9d918b
          phantomMaxHealthCache.clear();
          phantomAttackDamageCache.clear();
          phantomAttackedByCrystalRadius = getDouble("mobs.phantom.attacked-by-crystal-range", phantomAttackedByCrystalRadius);
-@@ -2952,6 +2962,7 @@ public class PurpurWorldConfig {
+@@ -3007,6 +3017,7 @@ public class PurpurWorldConfig {
      public boolean shulkerSpawnFromBulletRequireOpenLid = true;
      public double shulkerSpawnFromBulletNearbyRange = 8.0D;
      public String shulkerSpawnFromBulletNearbyEquation = "(nearby - 1) / 5.0";
@@ -202,7 +202,7 @@ index 4f85343fb87814db2a4603832f88296ae72cdb43..f7506073bdf1153e16c4179e5a9d918b
      public boolean shulkerSpawnFromBulletRandomColor = false;
      public boolean shulkerChangeColorWithDye = false;
      public boolean shulkerAlwaysDropExp = false;
-@@ -2968,6 +2979,7 @@ public class PurpurWorldConfig {
+@@ -3023,6 +3034,7 @@ public class PurpurWorldConfig {
          shulkerScale = Mth.clamp(getDouble("mobs.shulker.attributes.scale", shulkerScale), 0.0625D, Shulker.MAX_SCALE);
          shulkerTakeDamageFromWater = getBoolean("mobs.shulker.takes-damage-from-water", shulkerTakeDamageFromWater);
          shulkerSpawnFromBulletBaseChance = (float) getDouble("mobs.shulker.spawn-from-bullet.base-chance", shulkerSpawnFromBulletBaseChance);
@@ -210,7 +210,7 @@ index 4f85343fb87814db2a4603832f88296ae72cdb43..f7506073bdf1153e16c4179e5a9d918b
          shulkerSpawnFromBulletRequireOpenLid = getBoolean("mobs.shulker.spawn-from-bullet.require-open-lid", shulkerSpawnFromBulletRequireOpenLid);
          shulkerSpawnFromBulletNearbyRange = getDouble("mobs.shulker.spawn-from-bullet.nearby-range", shulkerSpawnFromBulletNearbyRange);
          shulkerSpawnFromBulletNearbyEquation = getString("mobs.shulker.spawn-from-bullet.nearby-equation", shulkerSpawnFromBulletNearbyEquation);
-@@ -3019,7 +3031,8 @@ public class PurpurWorldConfig {
+@@ -3074,7 +3086,8 @@ public class PurpurWorldConfig {
      public double skeletonHeadVisibilityPercent = 0.5D;
      public int skeletonFeedWitherRoses = 0;
      public String skeletonBowAccuracy = "14 - difficulty * 4";
@@ -220,7 +220,7 @@ index 4f85343fb87814db2a4603832f88296ae72cdb43..f7506073bdf1153e16c4179e5a9d918b
      public Boolean skeletonCanPickUpLoot = null;
      private void skeletonSettings() {
          skeletonRidable = getBoolean("mobs.skeleton.ridable", skeletonRidable);
-@@ -3038,6 +3051,7 @@ public class PurpurWorldConfig {
+@@ -3093,6 +3106,7 @@ public class PurpurWorldConfig {
          skeletonFeedWitherRoses = getInt("mobs.skeleton.feed-wither-roses", skeletonFeedWitherRoses);
          final String defaultSkeletonBowAccuracy = skeletonBowAccuracy;
          skeletonBowAccuracy = getString("mobs.skeleton.bow-accuracy", skeletonBowAccuracy);
@@ -228,7 +228,7 @@ index 4f85343fb87814db2a4603832f88296ae72cdb43..f7506073bdf1153e16c4179e5a9d918b
          for (int i = 1; i < 4; i++) {
              final float divergence;
              try {
-@@ -3087,8 +3101,12 @@ public class PurpurWorldConfig {
+@@ -3142,8 +3156,12 @@ public class PurpurWorldConfig {
      public boolean slimeControllable = true;
      public String slimeMaxHealth = "size * size";
      public String slimeAttackDamage = "size";
@@ -243,7 +243,7 @@ index 4f85343fb87814db2a4603832f88296ae72cdb43..f7506073bdf1153e16c4179e5a9d918b
      public boolean slimeTakeDamageFromWater = false;
      public boolean slimeAlwaysDropExp = false;
      private void slimeSettings() {
-@@ -3102,6 +3120,10 @@ public class PurpurWorldConfig {
+@@ -3157,6 +3175,10 @@ public class PurpurWorldConfig {
          }
          slimeMaxHealth = getString("mobs.slime.attributes.max_health", slimeMaxHealth);
          slimeAttackDamage = getString("mobs.slime.attributes.attack_damage", slimeAttackDamage);

@@ -25,10 +25,10 @@ https://github.com/CaffeineMC/lithium/commit/ba08831d0254076cba1e8aba3db6c42f26d
 https://github.com/CaffeineMC/lithium/commit/ba089f52be5b26e6590402211581e05e467a8e2d
 
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index fcef9558f4192165c7e2ab1905abee44b8b186e5..3feaa00850699158ca7193e56d417c1e06022d3c 100644
+index 9e02d451fb2c13bd015d3851945e1430cbc71bee..515fc8589e7c7379307b31ba792eb0a22788a353 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -2890,7 +2890,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2887,7 +2887,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
          for (TickingBlockEntity ticker : this.blockEntityTickers) {
              BlockPos blockPos = ticker.getPos();
@@ -552,7 +552,7 @@ index 8ad288bfb58d888950c2404ccd287b16d34bf67f..4ad825377d315d314d88ae24c8fdffbc
          private static final int LISTENER_RADIUS = 8;
          private final PositionSource positionSource = new BlockPositionSource(SculkShriekerBlockEntity.this.worldPosition);
 diff --git a/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java b/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java
-index 2d693f7b1630abe4b7101a92cc58d281fafb7ffa..671975f2713a5638f741f7d4cedeeda89d05d08d 100644
+index 4ed9f9530ea0836800b19f70e262f301f295158b..309a2b0e09866c1b30452260644bcf7f960b0860 100644
 --- a/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/ShulkerBoxBlockEntity.java
 @@ -319,17 +319,18 @@ public class ShulkerBoxBlockEntity extends RandomizableContainerBlockEntity impl

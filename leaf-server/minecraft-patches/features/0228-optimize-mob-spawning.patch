@@ -191,10 +191,10 @@ index 4501239dd1865e4d079f4dc2aaa6c66ad5a1f2a3..2dd3b48f6fa904300855b67bbbd1e0fa
              }
          }
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index d73420baff68dabbc87441546d054b9914d5669f..fd2aa7a98355655b509d5ff03132f768f9bce6d1 100644
+index 26eacf61fde83e565308ae52d506bfd6444bde04..1c3361f9f86ad5ea84b8f064666953ad083180b6 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -1212,6 +1212,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1209,6 +1209,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      // Paper end - optimise random ticking
  
      private final org.dreeam.leaf.world.DespawnMap despawnMap = new org.dreeam.leaf.world.DespawnMap(); // Leaf - optimize despawn

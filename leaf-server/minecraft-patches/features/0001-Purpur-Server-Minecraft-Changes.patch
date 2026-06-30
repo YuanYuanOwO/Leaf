@@ -6,7 +6,7 @@ Subject: [PATCH] Purpur Server Minecraft Changes
 Original license: MIT
 Original project: https://github.com/PurpurMC/Purpur
 
-Commit: 26a1e028a149fa8379a9798905e8203dd6a387cd
+Commit: 1ea828b462cc65ee3ca7cfda2155c01a19e01aef
 
 Patches listed below are removed in this patch, They exists in Gale or Leaf:
 * "net/minecraft/CrashReport.java.patch"
@@ -732,19 +732,10 @@ index 023cca49c6dd0f2961cf30f02c7cd74601f73f8b..960454a167ef52eb867da40af1fc5b3d
      private JComponent buildOnboardingPanel() {
          String onboardingLink = "https://docs.papermc.io/paper/next-steps";
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c7529dd93072 100644
+index ca1725b9ad40f41e241447e14948ee4116c3e4c9..50a1fe6bd9f7e6cf79e48e1420fbe153c902bddb 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -220,6 +220,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
-     private final StructureManager structureManager;
-     private final StructureCheck structureCheck;
-     private final boolean tickTime;
-+    private double preciseTime; // Purpur - Configurable daylight cycle
-+    private boolean forceTime; // Purpur - Configurable daylight cycle
-     private final LevelDebugSynchronizers debugSynchronizers = new LevelDebugSynchronizers(this);
- 
-     // CraftBukkit start
-@@ -237,6 +239,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -237,6 +237,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      private static final org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry DATA_TYPE_REGISTRY = new org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry();
      public final org.bukkit.craftbukkit.persistence.CraftPersistentDataContainer persistentDataContainer = new org.bukkit.craftbukkit.persistence.CraftPersistentDataContainer(DATA_TYPE_REGISTRY);
      private final alternate.current.wire.WireHandler wireHandler = new alternate.current.wire.WireHandler(this); // Paper - optimize redstone (Alternate Current)
@@ -752,7 +743,7 @@ index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c752
  
      @Override
      public @Nullable LevelChunk getChunkIfLoaded(int x, int z) {
-@@ -646,8 +649,25 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -646,8 +647,25 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          // CraftBukkit end
          this.tickTime = tickTime;
          this.server = server;
@@ -779,15 +770,7 @@ index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c752
          ChunkGenerator generator = levelStem.generator();
          // CraftBukkit start
          // Paper start - per-world time
-@@ -741,6 +761,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
-         this.chunkDataController = new ca.spottedleaf.moonrise.patches.chunk_system.io.datacontroller.ChunkDataController((ServerLevel)(Object)this, this.chunkTaskScheduler);
-         // Paper end - rewrite chunk system
-         this.getCraftServer().addWorld(this.getWorld()); // CraftBukkit
-+        this.preciseTime = this.serverLevelData.getGameTime(); // Purpur - Configurable daylight cycle
-     }
- 
-     // Paper start
-@@ -809,7 +830,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -809,7 +827,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          }
  
          int percentage = this.getGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
@@ -796,7 +779,7 @@ index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c752
              Optional<Holder<WorldClock>> defaultClock = this.dimensionType().defaultClock();
              org.bukkit.event.world.ClockTimeSkipEvent event = null; // Paper - per-world time
              if (this.getGameRules().get(GameRules.ADVANCE_TIME) && defaultClock.isPresent()) {
-@@ -1050,9 +1071,18 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1050,9 +1068,18 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
                      && this.random.nextDouble() < difficulty.getEffectiveDifficulty() * this.paperConfig().entities.spawning.skeletonHorseThunderSpawnChance.or(0.01) // Paper - Configurable spawn chances for skeleton horses
                      && !this.getBlockState(pos.below()).is(BlockTags.LIGHTNING_RODS);
                  if (isTrap) {
@@ -816,7 +799,7 @@ index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c752
                          horse.setAge(0);
                          horse.setPos(pos.getX(), pos.getY(), pos.getZ());
                          this.addFreshEntity(horse, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.LIGHTNING); // CraftBukkit
-@@ -1087,9 +1117,35 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1087,9 +1114,35 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
                  if (state.is(Blocks.SNOW)) {
                      int currentLayers = state.getValue(SnowLayerBlock.LAYERS);
                      if (currentLayers < Math.min(maxHeight, 8)) {
@@ -852,7 +835,7 @@ index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c752
                      }
                  } else {
                      org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockFormEvent(this, topPos, Blocks.SNOW.defaultBlockState(), Block.UPDATE_ALL, null); // CraftBukkit
-@@ -1110,7 +1166,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1110,7 +1163,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
                  p -> p.is(PoiTypes.LIGHTNING_ROD),
                  lightningRodPos -> lightningRodPos.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, lightningRodPos.getX(), lightningRodPos.getZ()) - 1,
                  center,
@@ -861,7 +844,7 @@ index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c752
                  PoiManager.Occupancy.ANY
              );
          return nearbyLightningRod.map(blockPos -> blockPos.above(1));
-@@ -1158,8 +1214,26 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1158,8 +1211,26 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
                  int percentage = this.getGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
                  Component message;
                  if (this.sleepStatus.areEnoughSleeping(percentage)) {
@@ -888,7 +871,7 @@ index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c752
                      message = Component.translatable("sleep.players_sleeping", this.sleepStatus.amountSleeping(), this.sleepStatus.sleepersNeeded(percentage));
                  }
  
-@@ -1325,6 +1399,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1325,6 +1396,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      public void resetWeatherCycle() {
          WeatherData weatherData = this.getWeatherData();
          // CraftBukkit start
@@ -896,7 +879,7 @@ index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c752
          weatherData.setRaining(false, org.bukkit.event.weather.WeatherChangeEvent.Cause.SLEEP); // Paper - Add cause to Weather/ThunderChangeEvents
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
          // Not that everyone ever manages to get the whole server to sleep at the same time....
-@@ -1332,6 +1407,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1332,6 +1404,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              weatherData.setRainTime(0);
          }
          // CraftBukkit end
@@ -904,7 +887,7 @@ index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c752
          weatherData.setThundering(false, org.bukkit.event.weather.ThunderChangeEvent.Cause.SLEEP); // Paper - Add cause to Weather/ThunderChangeEvents
          // CraftBukkit start
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
-@@ -2003,7 +2079,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2003,7 +2076,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          Explosion.BlockInteraction blockInteraction = switch (interactionType) {
              case NONE -> Explosion.BlockInteraction.KEEP;
              case BLOCK -> this.getDestroyType(GameRules.BLOCK_EXPLOSION_DROP_DECAY);
@@ -913,7 +896,7 @@ index ca1725b9ad40f41e241447e14948ee4116c3e4c9..ca39cddc5d7bccbea4ce8ed95354c752
                  ? this.getDestroyType(GameRules.MOB_EXPLOSION_DROP_DECAY)
                  : Explosion.BlockInteraction.KEEP;
              case TNT -> this.getDestroyType(GameRules.TNT_EXPLOSION_DROP_DECAY);
-@@ -2922,7 +2998,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2922,7 +2995,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              // Spigot start
              if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof ServerPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  // Paper start - Fix merchant inventory not closing on entity removal
@@ -1686,23 +1669,25 @@ index 7957e0cfc43909c5268698a11c4933d20b4d9155..0cad0f113cc7ff487b793d0c96cd56ac
              return false;
          }
 diff --git a/net/minecraft/world/clock/ServerClockManager.java b/net/minecraft/world/clock/ServerClockManager.java
-index 436ed3d95c21b8590664a125785545e0d07375fd..6a00fba101a620f2cfb9269ed6bcc5c1ac971ef9 100644
+index 436ed3d95c21b8590664a125785545e0d07375fd..da37312dede4c393a6e214c1ba1483eda551b4e9 100644
 --- a/net/minecraft/world/clock/ServerClockManager.java
 +++ b/net/minecraft/world/clock/ServerClockManager.java
-@@ -149,12 +149,12 @@ public class ServerClockManager extends SavedData implements ClockManager {
- 
-     public ClientboundSetTimePacket createFullSyncPacket() {
-         // Paper start - per-player time
--        return this.createFullSyncPacket(null);
-+        return this.createFullSyncPacket(null); // Purpur - TODO: Configurable daylight cycle
-     }
- 
-     public ClientboundSetTimePacket createFullSyncPacket(final net.minecraft.server.level.ServerPlayer player) {
-         final Map<Holder<WorldClock>, ClockNetworkState> updates = new HashMap<>(this.clocks.size());
--        this.clocks.forEach((clock, instance) -> updates.put(clock, this.packNetworkState(clock, instance, player)));
-+        this.clocks.forEach((clock, instance) -> updates.put(clock, this.packNetworkState(clock, instance, player))); // Purpur - TODO: Configurable daylight cycle
-         return new ClientboundSetTimePacket(this.getGameTime(), updates);
-         // Paper end - per-player time
+@@ -70,7 +70,15 @@ public class ServerClockManager extends SavedData implements ClockManager {
+     public void tick() {
+         boolean advanceTime = this.advanceTime(); // Paper - per-world time
+         if (advanceTime) {
+-            this.clocks.values().forEach(ServerClockManager.ClockInstance::tick);
++            this.clocks.forEach(((worldClockHolder, clockInstance) -> { // Purpur start - Configurable daylight cycle
++                ServerLevel l = level != null ? level : server.overworld();
++                int incrementTicks = 12000 / (l.isBrightOutside() ? l.purpurConfig.daytimeTicks : l.purpurConfig.nighttimeTicks);
++                float rate = clockInstance.rate;
++                clockInstance.rate *= incrementTicks;
++                clockInstance.tick();
++                clockInstance.rate = rate;
++                this.broadcastUpdates(worldClockHolder, clockInstance);
++            })); // Purpur end - Configurable daylight cycle
+             this.setDirty();
+         }
      }
 diff --git a/net/minecraft/world/damagesource/CombatRules.java b/net/minecraft/world/damagesource/CombatRules.java
 index 9cc810a308c9b9581ced90e31afc36f5f39bb950..32dc89c0714faab7baa4c521a11045215c43983f 100644
@@ -1941,7 +1926,7 @@ index ae3c3947e239b46ce47d361d33a41fe88fb730c3..bffd23881a6aaa4e1aaf9437b26fdaed
      }
  
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 0fffb986ecadec6ce00235ca24fbf09e2c556006..f8895927dd1fbde55790e27cf03c64a8385e4939 100644
+index 0fffb986ecadec6ce00235ca24fbf09e2c556006..1b914bbc2081e43b39c810b6a3dddd1d93323ab6 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -165,6 +165,7 @@ public abstract class Entity
@@ -2025,7 +2010,7 @@ index 0fffb986ecadec6ce00235ca24fbf09e2c556006..f8895927dd1fbde55790e27cf03c64a8
              && this.level.paperConfig().environment.netherCeilingVoidDamageHeight.test(v -> this.getY() >= v)
              && (!(this instanceof Player player) || !player.getAbilities().invulnerable))) {
              // Paper end - Configurable nether ceiling damage
-+            if (this.level.purpurConfig.teleportOnNetherCeilingDamage && this.level.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER && this instanceof ServerPlayer player) player.teleport(org.bukkit.craftbukkit.util.CraftLocation.toBukkit(this.level.levelData.getRespawnData().pos(), this.level)); else // Purpur - Add option to teleport to spawn on nether ceiling damage
++            if (this.level.purpurConfig.teleportOnNetherCeilingDamage && this.level.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER && this instanceof ServerPlayer player) player.teleport(org.bukkit.craftbukkit.util.CraftLocation.toBukkit(this.level.getLevelData().getRespawnData().pos(), this.level)); else // Purpur - Add option to teleport to spawn on nether ceiling damage
              this.onBelowWorld();
          }
      }
@@ -2295,7 +2280,7 @@ index 700c9c0d40dee1df6c97f7c63ad731f16bc5f3e7..b44467e1f9a876c696a97585c8d4a110
              ItemStack itemStack = selected.get().itemStack();
              int toRepairFromXpAmount = EnchantmentHelper.modifyDurabilityToRepairFromXp(player.level(), itemStack, amount);
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index 69c175a745d783ef5ac0cd4d233645e741ea64ca..4b7239a31bc8e791f8bde11a3d34c3d9e83e1784 100644
+index 69c175a745d783ef5ac0cd4d233645e741ea64ca..c015f6960835740e13b05c08f51a2a65041dc749 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
 @@ -258,9 +258,9 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
@@ -2349,7 +2334,7 @@ index 69c175a745d783ef5ac0cd4d233645e741ea64ca..4b7239a31bc8e791f8bde11a3d34c3d9
                      if (damagePerBlock > 0.0) {
 +                        // Purpur start - Add option to teleport to spawn if outside world border
 +                        if (this.level().purpurConfig.teleportIfOutsideBorder && this instanceof ServerPlayer serverPlayer) {
-+                            serverPlayer.teleport(org.bukkit.craftbukkit.util.CraftLocation.toBukkit(this.level().levelData.getRespawnData().pos(), this.level()));
++                            serverPlayer.teleport(org.bukkit.craftbukkit.util.CraftLocation.toBukkit(this.level().getLevelData().getRespawnData().pos(), this.level()));
 +                            return;
 +                        }
 +                        // Purpur end - Add option to teleport to spawn if outside world border
@@ -4071,6 +4056,48 @@ index 57127335a3c68fbf9ac3d64a8504c6e271a5d532..a683afa61a69a9ea2d372dc7a00dc76f
      @Override
      public SoundEvent getAmbientSound() {
          return SoundEvents.CAMEL_AMBIENT;
+diff --git a/net/minecraft/world/entity/animal/camel/CamelHusk.java b/net/minecraft/world/entity/animal/camel/CamelHusk.java
+index 9708a22cf72eb2f8e69a23fc4849f788fedffd83..57fd26345d8f7986bce0c8205889d3e785fd7917 100644
+--- a/net/minecraft/world/entity/animal/camel/CamelHusk.java
++++ b/net/minecraft/world/entity/animal/camel/CamelHusk.java
+@@ -26,6 +26,37 @@ public class CamelHusk extends Camel {
+         super(type, level);
+     }
+ 
++    // Purpur start - Ridables
++    @Override
++    public boolean dismountsUnderwater() {
++        return level().purpurConfig.useDismountsUnderwaterTag ? super.dismountsUnderwater() : !level().purpurConfig.camelHuskRidableInWater;
++    }
++    // Purpur end - Ridables
++
++    // Purpur start - Configurable entity base attributes
++    @Override
++    public float generateMaxHealth(net.minecraft.util.RandomSource random) {
++        return (float) generateMaxHealth(this.level().purpurConfig.camelHuskMaxHealthMin, this.level().purpurConfig.camelHuskMaxHealthMax);
++    }
++
++    @Override
++    public double generateJumpStrength(net.minecraft.util.RandomSource random) {
++        return generateJumpStrength(this.level().purpurConfig.camelHuskJumpStrengthMin, this.level().purpurConfig.camelHuskJumpStrengthMax);
++    }
++
++    @Override
++    public double generateSpeed(net.minecraft.util.RandomSource random) {
++        return generateSpeed(this.level().purpurConfig.camelHuskMovementSpeedMin, this.level().purpurConfig.camelHuskMovementSpeedMax);
++    }
++    // Purpur end - Configurable entity base attributes
++
++    // Purpur start - Mobs always drop experience
++    @Override
++    protected boolean isAlwaysExperienceDropper() {
++        return this.level().purpurConfig.camelHuskAlwaysDropExp;
++    }
++    // Purpur end - Mobs always drop experience
++
+     @Override
+     public boolean removeWhenFarAway(final double distSqr) {
+         return true;
 diff --git a/net/minecraft/world/entity/animal/chicken/Chicken.java b/net/minecraft/world/entity/animal/chicken/Chicken.java
 index c646ab45fbfb4a5fd29b8ad4914cf115d2f674b5..31dda8f31967e1e02c2a9e32cc0586afa9c416e1 100644
 --- a/net/minecraft/world/entity/animal/chicken/Chicken.java
@@ -7450,7 +7477,7 @@ index 5432ce87e68a10c4c4547f9df14b35f8f0a8510e..079d7dfd726670a5e3ed2811813190ba
      protected ParticleOptions getInkParticle() {
          return ParticleTypes.GLOW_SQUID_INK;
 diff --git a/net/minecraft/world/entity/animal/squid/Squid.java b/net/minecraft/world/entity/animal/squid/Squid.java
-index cc6ecffa5eccdf8f12d37861ead767dbe5326397..cd1f9133775633eeeb12bbab0d4bb48f42b7efb0 100644
+index cc6ecffa5eccdf8f12d37861ead767dbe5326397..dcb597337bc69be21f0924dda89a5299aa8d0f21 100644
 --- a/net/minecraft/world/entity/animal/squid/Squid.java
 +++ b/net/minecraft/world/entity/animal/squid/Squid.java
 @@ -55,9 +55,73 @@ public class Squid extends AgeableWaterCreature {
@@ -7542,7 +7569,7 @@ index cc6ecffa5eccdf8f12d37861ead767dbe5326397..cd1f9133775633eeeb12bbab0d4bb48f
 +            // Purpur start - Ridables
 +            net.minecraft.world.entity.player.Player rider = squid.getRider();
 +            if (rider != null && squid.isControllable()) {
-+                if (rider.jumping) {
++                if (rider.isJumping()) {
 +                    squid.onSpacebar();
 +                }
 +                float forward = rider.getForwardMot();
@@ -10727,10 +10754,83 @@ index c9091f9aed31ce23371539cb44695732b2ae4e9b..35da647c8dad5da274ab8de857636d28
          profiler.pop();
          this.updateActivity();
 diff --git a/net/minecraft/world/entity/monster/breeze/Breeze.java b/net/minecraft/world/entity/monster/breeze/Breeze.java
-index eaa7eb69bdc819228bbab05b053844f1578294ba..dd1a4c7ee396572269aa3dfec12f6b01018a66c3 100644
+index eaa7eb69bdc819228bbab05b053844f1578294ba..c46e4460d7bf27ced40e027c2b029d99c8098e27 100644
 --- a/net/minecraft/world/entity/monster/breeze/Breeze.java
 +++ b/net/minecraft/world/entity/monster/breeze/Breeze.java
-@@ -234,6 +234,7 @@ public class Breeze extends Monster {
+@@ -79,6 +79,72 @@ public class Breeze extends Monster {
+         this.xpReward = 10;
+     }
+ 
++    // Purpur start - Ridables
++    @Override
++    public boolean isRidable() {
++        return level().purpurConfig.breezeRidable;
++    }
++
++    @Override
++    public boolean dismountsUnderwater() {
++        return level().purpurConfig.useDismountsUnderwaterTag ? super.dismountsUnderwater() : !level().purpurConfig.breezeRidableInWater;
++    }
++
++    @Override
++    public boolean isControllable() {
++        return level().purpurConfig.breezeControllable;
++    }
++
++    @Override
++    public boolean onSpacebar() {
++        if (getRider() != null && getRider().getBukkitEntity().hasPermission("allow.special.breeze")) {
++            shoot();
++        }
++        return false;
++    }
++
++    public boolean shoot() {
++        if (!(level() instanceof ServerLevel serverLevel)) return false;
++
++        org.bukkit.Location loc = ((org.bukkit.entity.LivingEntity) getBukkitEntity()).getEyeLocation();
++        org.bukkit.util.Vector target = loc.getDirection().normalize().multiply(100).add(loc.toVector());
++
++        net.minecraft.world.entity.projectile.hurtingprojectile.windcharge.BreezeWindCharge windCharge = new net.minecraft.world.entity.projectile.hurtingprojectile.windcharge.BreezeWindCharge(this, serverLevel);
++        Projectile.spawnProjectileUsingShoot(windCharge, serverLevel, net.minecraft.world.item.ItemStack.EMPTY, target.getX() - getX(), target.getY() - getFiringYPosition(), target.getZ() - getZ(), 0.7F, 5 - serverLevel.getDifficulty().getId() * 4
++        );
++        this.playSound(SoundEvents.BREEZE_SHOOT, 1.5F, 1.0F);
++        return true;
++    }
++
++    @Override
++    protected void registerGoals() {
++        this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this));
++        this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this));
++    }
++    // Purpur end - Ridables
++
++    // Purpur start - Configurable entity base attributes
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level().purpurConfig.breezeMaxHealth);
++        this.getAttribute(Attributes.SCALE).setBaseValue(this.level().purpurConfig.breezeScale);
++    }
++    // Purpur end - Configurable entity base attributes
++
++    // Purpur start - Toggle for water sensitive mob damage
++    @Override
++    public boolean isSensitiveToWater() {
++        return this.level().purpurConfig.breezeTakeDamageFromWater;
++    }
++    // Purpur end - Toggle for water sensitive mob damage
++
++    // Purpur start - Mobs always drop experience
++    @Override
++    protected boolean isAlwaysExperienceDropper() {
++        return this.level().purpurConfig.breezeAlwaysDropExp;
++    }
++    // Purpur end - Mobs always drop experience
++
+     @Override
+     public Brain<Breeze> getBrain() {
+         return (Brain<Breeze>)super.getBrain();
+@@ -234,6 +300,7 @@ public class Breeze extends Monster {
      protected void customServerAiStep(final ServerLevel level) {
          ProfilerFiller profiler = Profiler.get();
          profiler.push("breezeBrain");
@@ -11837,17 +11937,65 @@ index faff25abf54e00f38b10bdb47e37ab2d100f32fb..cece76ba9a5c58cc811af1fec415f8e7
      protected void defineSynchedData(final SynchedEntityData.Builder entityData) {
          super.defineSynchedData(entityData);
 diff --git a/net/minecraft/world/entity/monster/skeleton/Parched.java b/net/minecraft/world/entity/monster/skeleton/Parched.java
-index 986caff5325830c6d3eb0f6927c3294ae8b9ebe0..ed121e0b32a791ade0126edc627a96f713bc30d4 100644
+index 986caff5325830c6d3eb0f6927c3294ae8b9ebe0..12a84a2cfbc81ddf87f3d0ed575bbd4cbe749b54 100644
 --- a/net/minecraft/world/entity/monster/skeleton/Parched.java
 +++ b/net/minecraft/world/entity/monster/skeleton/Parched.java
-@@ -17,6 +17,7 @@ import org.jspecify.annotations.Nullable;
+@@ -17,8 +17,55 @@ import org.jspecify.annotations.Nullable;
  public class Parched extends AbstractSkeleton {
      public Parched(final EntityType<? extends AbstractSkeleton> type, final Level level) {
          super(type, level);
 +        this.setShouldBurnInDay(false); // Purpur - API for any mob to burn daylight
      }
  
++    // Purpur start - Ridables
++    @Override
++    public boolean isRidable() {
++        return level().purpurConfig.parchedRidable;
++    }
++
++    @Override
++    public boolean dismountsUnderwater() {
++        return level().purpurConfig.useDismountsUnderwaterTag ? super.dismountsUnderwater() : !level().purpurConfig.parchedRidableInWater;
++    }
++
++    @Override
++    public boolean isControllable() {
++        return level().purpurConfig.parchedControllable;
++    }
++    // Purpur end - Ridables
++
++    // Purpur start - Configurable entity base attributes
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level().purpurConfig.parchedMaxHealth);
++        this.getAttribute(Attributes.SCALE).setBaseValue(this.level().purpurConfig.parchedScale);
++    }
++    // Purpur end - Configurable entity base attributes
++
++    // Purpur start - Check mobGriefing Overrides
++    @Override
++    protected Boolean checkEntityPickUpLootOverride() {
++        return this.level().purpurConfig.parchedCanPickUpLoot;
++    }
++    // Purpur end - Check mobGriefing Overrides
++
++    // Purpur start - Toggle for water sensitive mob damage
++    @Override
++    public boolean isSensitiveToWater() {
++        return this.level().purpurConfig.parchedTakeDamageFromWater;
++    }
++    // Purpur end - Toggle for water sensitive mob damage
++
++    // Purpur start - Mobs always drop experience
++    @Override
++    protected boolean isAlwaysExperienceDropper() {
++        return this.level().purpurConfig.parchedAlwaysDropExp;
++    }
++    // Purpur end - Mobs always drop experience
++
      @Override
+     protected AbstractArrow getArrow(final ItemStack projectile, final float power, final @Nullable ItemStack firingWeapon) {
+         AbstractArrow arrow = super.getArrow(projectile, power, firingWeapon);
 diff --git a/net/minecraft/world/entity/monster/skeleton/Skeleton.java b/net/minecraft/world/entity/monster/skeleton/Skeleton.java
 index f23ffcbc12867a5ed068c95f5c570497a0d53f13..5f78e335e92e11a6640becf1e5bde7803373199e 100644
 --- a/net/minecraft/world/entity/monster/skeleton/Skeleton.java
@@ -11970,10 +12118,10 @@ index f23ffcbc12867a5ed068c95f5c570497a0d53f13..5f78e335e92e11a6640becf1e5bde780
 +    // Purpur end - Skeletons eat wither roses
  }
 diff --git a/net/minecraft/world/entity/monster/skeleton/Stray.java b/net/minecraft/world/entity/monster/skeleton/Stray.java
-index d45556b27a55789bd91c1cb612d7f939fed9aebf..8188c9e34e0df679e3799bd184790d57f38635be 100644
+index d45556b27a55789bd91c1cb612d7f939fed9aebf..0b2779ec2917f9221691bf1d2fa9ed0ffbede93f 100644
 --- a/net/minecraft/world/entity/monster/skeleton/Stray.java
 +++ b/net/minecraft/world/entity/monster/skeleton/Stray.java
-@@ -23,6 +23,51 @@ public class Stray extends AbstractSkeleton {
+@@ -23,6 +23,52 @@ public class Stray extends AbstractSkeleton {
          super(type, level);
      }
  
@@ -11998,6 +12146,7 @@ index d45556b27a55789bd91c1cb612d7f939fed9aebf..8188c9e34e0df679e3799bd184790d57
 +    @Override
 +    public void initAttributes() {
 +        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level().purpurConfig.strayMaxHealth);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.SCALE).setBaseValue(this.level().purpurConfig.strayScale);
 +    }
 +    // Purpur end - Configurable entity base attributes
 +
@@ -15841,7 +15990,7 @@ index 4bd84b80199c7f625475ca62da02266d871a8639..9e403e00bce4271be82245bc18d26dbe
          return level.getBlockState(above).isRedstoneConductor(level, above);
      }
 diff --git a/net/minecraft/world/level/block/ComposterBlock.java b/net/minecraft/world/level/block/ComposterBlock.java
-index 69e3969242ad52168e947af209e6fa72f36178ae..76f005a4309c0d64d37d27bc1678605f85a17c48 100644
+index 69e3969242ad52168e947af209e6fa72f36178ae..ba5ffa84105a6101c4fe8652a112a00ce40cb4d4 100644
 --- a/net/minecraft/world/level/block/ComposterBlock.java
 +++ b/net/minecraft/world/level/block/ComposterBlock.java
 @@ -256,17 +256,27 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
@@ -15863,7 +16012,7 @@ index 69e3969242ad52168e947af209e6fa72f36178ae..76f005a4309c0d64d37d27bc1678605f
 +            if (newState == null) {
 +                return InteractionResult.PASS;
 +            }
-+            if (level.purpurConfig.composterBulkProcess && player.isShiftKeyDown() && newState != state) {
++            if (level.purpurConfig.composterBulkProcess && player.isShiftKeyDown()) {
 +                BlockState oldState;
 +                int oldCount, newCount, oldLevel, newLevel;
 +                do {
@@ -15876,7 +16025,7 @@ index 69e3969242ad52168e947af209e6fa72f36178ae..76f005a4309c0d64d37d27bc1678605f
 +                    }
 +                    newCount = itemStack.getCount();
 +                    newLevel = newState.getValue(ComposterBlock.LEVEL);
-+                } while (newCount > 0 && (newCount != oldCount || newLevel != oldLevel || newState != oldState));
++                } while (newCount > 0 && (newCount != oldCount || newLevel != oldLevel));
              }
 +            // Purpur end - Sneak to bulk process composter
  
@@ -18047,10 +18196,10 @@ index 0000000000000000000000000000000000000000..03e35c5e6f126d8b4d9f56ea2c5a044e
 +}
 diff --git a/org/purpurmc/purpur/PurpurWorldConfig.java b/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..994fb2685bde4fcaedd5d055e47ac4156d6977d3
+index 0000000000000000000000000000000000000000..6ee04e7cef3489096b2fd3c5ee81830bc01fca71
 --- /dev/null
 +++ b/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3845 @@
+@@ -0,0 +1,3900 @@
 +package org.purpurmc.purpur;
 +
 +import java.util.ArrayList;
@@ -19510,6 +19659,23 @@ index 0000000000000000000000000000000000000000..994fb2685bde4fcaedd5d055e47ac415
 +        boggedCanPickUpLoot = getBooleanOrDefault("mobs.bogged.can-pick-up-loot", boggedCanPickUpLoot);
 +    }
 +
++    public boolean breezeRidable = false;
++    public boolean breezeRidableInWater = true;
++    public boolean breezeControllable = true;
++    public double breezeMaxHealth = 30.0D;
++    public double breezeScale = 1.0D;
++    public boolean breezeTakeDamageFromWater = false;
++    public boolean breezeAlwaysDropExp = false;
++    private void breezeSettings() {
++        breezeRidable = getBoolean("mobs.breeze.ridable", breezeRidable);
++        breezeRidableInWater = getBoolean("mobs.breeze.ridable-in-water", breezeRidableInWater);
++        breezeControllable = getBoolean("mobs.breeze.controllable", breezeControllable);
++        breezeMaxHealth = getDouble("mobs.breeze.attributes.max_health", breezeMaxHealth);
++        breezeScale = Mth.clamp(getDouble("mobs.breeze.attributes.scale", breezeScale), 0.0625D, 16.0D);
++        breezeTakeDamageFromWater = getBoolean("mobs.breeze.takes-damage-from-water", breezeTakeDamageFromWater);
++        breezeAlwaysDropExp = getBoolean("mobs.breeze.always-drop-exp", breezeAlwaysDropExp);
++    }
++
 +    public boolean camelRidableInWater = false;
 +    public double camelMaxHealthMin = 32.0D;
 +    public double camelMaxHealthMax = 32.0D;
@@ -19527,6 +19693,25 @@ index 0000000000000000000000000000000000000000..994fb2685bde4fcaedd5d055e47ac415
 +        camelMovementSpeedMin = getDouble("mobs.camel.attributes.movement_speed.min", camelMovementSpeedMin);
 +        camelMovementSpeedMax = getDouble("mobs.camel.attributes.movement_speed.max", camelMovementSpeedMax);
 +        camelBreedingTicks = getInt("mobs.camel.breeding-delay-ticks", camelBreedingTicks);
++    }
++
++    public boolean camelHuskRidableInWater = false;
++    public double camelHuskMaxHealthMin = 32.0D;
++    public double camelHuskMaxHealthMax = 32.0D;
++    public double camelHuskJumpStrengthMin = 0.42D;
++    public double camelHuskJumpStrengthMax = 0.42D;
++    public double camelHuskMovementSpeedMin = 0.09D;
++    public double camelHuskMovementSpeedMax = 0.09D;
++    public boolean camelHuskAlwaysDropExp = false;
++    private void camelHuskSettings() {
++        camelHuskRidableInWater = getBoolean("mobs.camel_husk.ridable-in-water", camelHuskRidableInWater);
++        camelHuskMaxHealthMin = getDouble("mobs.camel_husk.attributes.max_health.min", camelHuskMaxHealthMin);
++        camelHuskMaxHealthMax = getDouble("mobs.camel_husk.attributes.max_health.max", camelHuskMaxHealthMax);
++        camelHuskJumpStrengthMin = getDouble("mobs.camel_husk.attributes.jump_strength.min", camelHuskJumpStrengthMin);
++        camelHuskJumpStrengthMax = getDouble("mobs.camel_husk.attributes.jump_strength.max", camelHuskJumpStrengthMax);
++        camelHuskMovementSpeedMin = getDouble("mobs.camel_husk.attributes.movement_speed.min", camelHuskMovementSpeedMin);
++        camelHuskMovementSpeedMax = getDouble("mobs.camel_husk.attributes.movement_speed.max", camelHuskMovementSpeedMax);
++        camelHuskAlwaysDropExp = getBoolean("mobs.camel_husk.always-drop-exp", camelHuskAlwaysDropExp);
 +    }
 +
 +    public boolean catRidable = false;
@@ -20520,6 +20705,25 @@ index 0000000000000000000000000000000000000000..994fb2685bde4fcaedd5d055e47ac415
 +        pandaBreedingTicks = getInt("mobs.panda.breeding-delay-ticks", pandaBreedingTicks);
 +        pandaTakeDamageFromWater = getBoolean("mobs.panda.takes-damage-from-water", pandaTakeDamageFromWater);
 +        pandaAlwaysDropExp = getBoolean("mobs.panda.always-drop-exp", pandaAlwaysDropExp);
++    }
++
++    public boolean parchedRidable = false;
++    public boolean parchedRidableInWater = true;
++    public boolean parchedControllable = true;
++    public double parchedMaxHealth = 16.0D;
++    public double parchedScale = 1.0D;
++    public boolean parchedTakeDamageFromWater = false;
++    public boolean parchedAlwaysDropExp = false;
++    public Boolean parchedCanPickUpLoot = null;
++    private void parchedSettings() {
++        parchedRidable = getBoolean("mobs.parched.ridable", parchedRidable);
++        parchedRidableInWater = getBoolean("mobs.parched.ridable-in-water", parchedRidableInWater);
++        parchedControllable = getBoolean("mobs.parched.controllable", parchedControllable);
++        parchedMaxHealth = getDouble("mobs.parched.attributes.max_health", parchedMaxHealth);
++        parchedScale = Mth.clamp(getDouble("mobs.parched.attributes.scale", parchedScale), 0.0625D, 16.0D);
++        parchedTakeDamageFromWater = getBoolean("mobs.parched.takes-damage-from-water", parchedTakeDamageFromWater);
++        parchedAlwaysDropExp = getBoolean("mobs.parched.always-drop-exp", parchedAlwaysDropExp);
++        parchedCanPickUpLoot = getBooleanOrDefault("mobs.parched.can-pick-up-loot", parchedCanPickUpLoot);
 +    }
 +
 +    public boolean parrotRidable = false;
@@ -22714,7 +22918,7 @@ index 0000000000000000000000000000000000000000..d5f5822e1a5ed4bc8f68db3f08440692
 +}
 diff --git a/org/purpurmc/purpur/controller/WaterMoveControllerWASD.java b/org/purpurmc/purpur/controller/WaterMoveControllerWASD.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..28b790cb69b9fb722d0fd7c64b7d60719ea4f856
+index 0000000000000000000000000000000000000000..65301b22a918b300f30d52838fc7c885f3f7b31c
 --- /dev/null
 +++ b/org/purpurmc/purpur/controller/WaterMoveControllerWASD.java
 @@ -0,0 +1,53 @@
@@ -22756,7 +22960,7 @@ index 0000000000000000000000000000000000000000..28b790cb69b9fb722d0fd7c64b7d6071
 +            vertical = 0.0F;
 +        }
 +
-+        if (rider.jumping && spacebarEvent(entity)) {
++        if (rider.isJumping() && spacebarEvent(entity)) {
 +            entity.onSpacebar();
 +        }
 +

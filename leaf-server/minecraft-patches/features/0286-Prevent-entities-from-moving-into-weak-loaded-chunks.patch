@@ -6,10 +6,10 @@ Subject: [PATCH] Prevent entities from moving into weak loaded chunks
 This also should mitigate most cases of memory leaks caused by massive weak loaded projectiles
 
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index 4bf05f3b01151a75ae0a0b6c3cde8f56343a01db..550f7992758b245a3b5eb398204e52213fdb20ad 100644
+index 08507428bd18b02cbf2622f45312b092a7a676ad..6042137f919dc966226d0ecef561a4aa0848bcc7 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -259,8 +259,40 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -257,8 +257,40 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          return this.typeKey;
      }
  
@@ -52,7 +52,7 @@ index 4bf05f3b01151a75ae0a0b6c3cde8f56343a01db..550f7992758b245a3b5eb398204e5221
          // CollisionGetter methods for VoxelShapes)
          // be more strict too, add a block (dumb plugins in move events?)
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 37386cf29f4d5ce82ccb869b431d1b54bef4b9b5..ce826f5910c5b932d228dcab28ef4f60beb16f1c 100644
+index 31d2c2c21148f785ca3552a30a5fb4032f78ad04..1f267f763a4686504634c62717fa8124090f25eb 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -390,6 +390,7 @@ public abstract class Entity

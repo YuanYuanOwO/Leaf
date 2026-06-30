@@ -1059,10 +1059,10 @@ index 3ae5196e0a0fa5b8c8f590b3cf6345993c459e7c..5b7fe0ecf878b500cfd35ddf1349ec55
          void sendToTrackingPlayers(Packet<? super ClientGamePacketListener> packet);
  
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index bdf2fe4b7002c70104557b8f1fce5942ce0ce6ac..db4b8cec257c46f1562de6b6566ab47a7e69537a 100644
+index 7029222dd20969062b8529b38a94a259f5f7ac8e..862a9b2cc7d24729bf84a77770512f0715833fed 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -246,6 +246,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -244,6 +244,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      private final alternate.current.wire.WireHandler wireHandler = new alternate.current.wire.WireHandler(this); // Paper - optimize redstone (Alternate Current)
      public boolean hasRidableMoveEvent = false; // Purpur - Ridables
      final List<ServerPlayer> realPlayers; // Leaves - skip
@@ -1070,7 +1070,7 @@ index bdf2fe4b7002c70104557b8f1fce5942ce0ce6ac..db4b8cec257c46f1562de6b6566ab47a
  
      @Override
      public @Nullable LevelChunk getChunkIfLoaded(int x, int z) {
-@@ -1131,6 +1132,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1128,6 +1129,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
          this.debugSynchronizers.tick(this.server.debugSubscribers());
          profiler.pop();
@@ -1080,7 +1080,7 @@ index bdf2fe4b7002c70104557b8f1fce5942ce0ce6ac..db4b8cec257c46f1562de6b6566ab47a
  
      @Override
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 4f597a172fbb06640954449851d71ec2d387d49b..ff295aeff9ed0b78b4ca2a17451103132d82c2c6 100644
+index 133f1c6f4c2e9e8582016aadddd1adec9414bf9e..b8e528ef25f33bbb3e8587e3b2f4dbf6f5b032ac 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -899,6 +899,11 @@ public abstract class Entity
@@ -1096,7 +1096,7 @@ index 4f597a172fbb06640954449851d71ec2d387d49b..ff295aeff9ed0b78b4ca2a1745110313
      }
  
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index 5212a2a85634b184e671f2031a7e68a6826ff50d..f1e34151b18ff3d0d9619ca2cd931fbbe161ff28 100644
+index 12fbe7b94fa9e89889bb12bd0d3b5c88d99ae989..42c9fdd09e933c04cbbbf40e9f7ab473236d2f9c 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
 @@ -1014,6 +1014,13 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin

@@ -299,10 +299,10 @@ index 37c9f983ae89c497f44a1b7967d741abf909e0a0..d7fb2505f2a86ca0d81f144624ef2e1a
  
              this.setListData(players);
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index 3c74093713e90243cf7735834e84cae3e00ddfa2..ed29642560d6a8b62d8808c78e69faa7cb70efe7 100644
+index 4c06ad9f1f2598027f4596d382879cce68297df0..2d077325841cdcb452475c8363600481cfcee6a4 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -240,6 +240,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -238,6 +238,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      public final org.bukkit.craftbukkit.persistence.CraftPersistentDataContainer persistentDataContainer = new org.bukkit.craftbukkit.persistence.CraftPersistentDataContainer(DATA_TYPE_REGISTRY);
      private final alternate.current.wire.WireHandler wireHandler = new alternate.current.wire.WireHandler(this); // Paper - optimize redstone (Alternate Current)
      public boolean hasRidableMoveEvent = false; // Purpur - Ridables
@@ -310,15 +310,15 @@ index 3c74093713e90243cf7735834e84cae3e00ddfa2..ed29642560d6a8b62d8808c78e69faa7
  
      @Override
      public @Nullable LevelChunk getChunkIfLoaded(int x, int z) {
-@@ -762,6 +763,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -759,6 +760,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+         this.chunkDataController = new ca.spottedleaf.moonrise.patches.chunk_system.io.datacontroller.ChunkDataController((ServerLevel)(Object)this, this.chunkTaskScheduler);
          // Paper end - rewrite chunk system
          this.getCraftServer().addWorld(this.getWorld()); // CraftBukkit
-         this.preciseTime = this.serverLevelData.getGameTime(); // Purpur - Configurable daylight cycle
 +        this.realPlayers = Lists.newArrayList(); // Leaves - skip
      }
  
      // Paper start
-@@ -2948,6 +2950,11 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2945,6 +2947,11 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              // ServerLevel.this.getChunkSource().addEntity(entity); // Paper - ignore and warn about illegal addEntity calls instead of crashing server; moved down below valid=true
              if (entity instanceof ServerPlayer player) {
                  ServerLevel.this.players.add(player);
@@ -330,7 +330,7 @@ index 3c74093713e90243cf7735834e84cae3e00ddfa2..ed29642560d6a8b62d8808c78e69faa7
                  if (player.isReceivingWaypoints()) {
                      ServerLevel.this.getWaypointManager().addPlayer(player);
                  }
-@@ -3026,6 +3033,11 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -3023,6 +3030,11 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              ServerLevel.this.getChunkSource().removeEntity(entity);
              if (entity instanceof ServerPlayer player) {
                  ServerLevel.this.players.remove(player);
@@ -572,7 +572,7 @@ index e64ae03858d3f6e37aa44630203e0315bac5eb03..3e7ed544fbc2e4cd05e5208c5a842023
              new com.destroystokyo.paper.profile.CraftPlayerProfile(nameAndId),
              io.papermc.paper.adventure.PaperAdventure.asAdventure(currentResult.message),
 diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index b814cc6769eab05c1c4d566e93ed6a45ded10df1..71408783d1a04e2053ba9f64ea5d0a78354a94e9 100644
+index a0fb0d3ef01a5c2e788b34804e7cab0b70559348..6da7bba4784998a71c74ff619e9a8eaf99b74e8b 100644
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
 @@ -276,7 +276,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin

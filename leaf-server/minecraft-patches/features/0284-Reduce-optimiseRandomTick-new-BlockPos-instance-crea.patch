@@ -27,10 +27,10 @@ index ccc8a5b5a5353e624e86d69617599cc3ac118a9d..480031124848027a006f62a6bbf90c94
  
          // Perform the walk over all directly reachable redstone wire blocks, propagating wire value
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index 2c48d587dc74581f6f24e77b25433b2497ab2ebc..4bf05f3b01151a75ae0a0b6c3cde8f56343a01db 100644
+index ccad390325fbe236b2c5772993e5e1f440215983..08507428bd18b02cbf2622f45312b092a7a676ad 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -1167,6 +1167,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1164,6 +1164,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          this.players.stream().filter(LivingEntity::isSleeping).collect(Collectors.toList()).forEach(player -> player.stopSleepInBed(false, false));
      }
  
@@ -39,7 +39,7 @@ index 2c48d587dc74581f6f24e77b25433b2497ab2ebc..4bf05f3b01151a75ae0a0b6c3cde8f56
      // Paper start - optimise random ticking
      private void optimiseRandomTick(final LevelChunk chunk, final int tickSpeed) {
          final LevelChunkSection[] sections = chunk.getSections();
-@@ -1200,14 +1202,16 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1197,14 +1199,16 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
                  final int location = (int)tickList.getRaw(index) & 0xFFFF;
                  final BlockState state = states.get(location);
  

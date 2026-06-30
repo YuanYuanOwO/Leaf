@@ -31,45 +31,6 @@ index 78aa84f6fd46c37fc5f7825f7f798cff6f0c2d78..74ae3d2d6c1506ffd726ae6727d1e8ea
                  org.purpurmc.purpur.event.player.PlayerBookTooLargeEvent event = new org.purpurmc.purpur.event.player.PlayerBookTooLargeEvent(player.getBukkitEntity(), itemstack.asBukkitCopy()); if (event.shouldKickPlayer()) // Purpur - PlayerBookTooLargeEvent
                  this.disconnectAsync(Component.literal("Book too large!"), org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_ACTION); // Paper - kick event cause // Paper - add proper async disconnect
                  return;
-diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index 7c0bd5681f33b85e1711ba18b5c94658e8553be2..c6f9cd8e1b3be63e1dfcb3052bbb79d02f2dc2d0 100644
---- a/net/minecraft/world/entity/Entity.java
-+++ b/net/minecraft/world/entity/Entity.java
-@@ -1008,7 +1008,7 @@ public abstract class Entity
-             && this.level.paperConfig().environment.netherCeilingVoidDamageHeight.test(v -> this.getY() >= v)
-             && (!(this instanceof Player player) || !player.getAbilities().invulnerable))) {
-             // Paper end - Configurable nether ceiling damage
--            if (this.level.purpurConfig.teleportOnNetherCeilingDamage && this.level.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER && this instanceof ServerPlayer player) player.teleport(org.bukkit.craftbukkit.util.CraftLocation.toBukkit(this.level.levelData.getRespawnData().pos(), this.level)); else // Purpur - Add option to teleport to spawn on nether ceiling damage
-+            if (this.level.purpurConfig.teleportOnNetherCeilingDamage && this.level.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER && this instanceof ServerPlayer player) player.teleport(org.bukkit.craftbukkit.util.CraftLocation.toBukkit(this.level.getLevelData().getRespawnData().pos(), this.level)); else // Purpur - Add option to teleport to spawn on nether ceiling damage // Leaf - fix build
-             this.onBelowWorld();
-         }
-     }
-diff --git a/net/minecraft/world/entity/LivingEntity.java b/net/minecraft/world/entity/LivingEntity.java
-index 666abbba092436e8a4b33a904650ec2c761a2efe..b814cc6769eab05c1c4d566e93ed6a45ded10df1 100644
---- a/net/minecraft/world/entity/LivingEntity.java
-+++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -470,7 +470,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
-                     if (damagePerBlock > 0.0) {
-                         // Purpur start - Add option to teleport to spawn if outside world border
-                         if (this.level().purpurConfig.teleportIfOutsideBorder && this instanceof ServerPlayer serverPlayer) {
--                            serverPlayer.teleport(org.bukkit.craftbukkit.util.CraftLocation.toBukkit(this.level().levelData.getRespawnData().pos(), this.level()));
-+                            serverPlayer.teleport(org.bukkit.craftbukkit.util.CraftLocation.toBukkit(this.level().getLevelData().getRespawnData().pos(), this.level())); // Leaf - fix build
-                             return;
-                         }
-                         // Purpur end - Add option to teleport to spawn if outside world border
-diff --git a/net/minecraft/world/entity/animal/squid/Squid.java b/net/minecraft/world/entity/animal/squid/Squid.java
-index cd1f9133775633eeeb12bbab0d4bb48f42b7efb0..19020a73b19b11ed482a1ad9243467b2c00872b6 100644
---- a/net/minecraft/world/entity/animal/squid/Squid.java
-+++ b/net/minecraft/world/entity/animal/squid/Squid.java
-@@ -381,7 +381,7 @@ public class Squid extends AgeableWaterCreature {
-             // Purpur start - Ridables
-             net.minecraft.world.entity.player.Player rider = squid.getRider();
-             if (rider != null && squid.isControllable()) {
--                if (rider.jumping) {
-+                if (rider.isJumping()) { // Leaf - fix build
-                     squid.onSpacebar();
-                 }
-                 float forward = rider.getForwardMot();
 diff --git a/net/minecraft/world/entity/projectile/Projectile.java b/net/minecraft/world/entity/projectile/Projectile.java
 index e4959bc6ccf709c1e9bfda72bd1f4543cfd37b92..b41e1ead7e9016cd0dd74c2adb7bad0e58410c79 100644
 --- a/net/minecraft/world/entity/projectile/Projectile.java
@@ -133,10 +94,10 @@ index 7ebf88560e431a07cf4c1417dfd5a71fdd73e557..4542e4cee86158874e034f376da39216
                                  if (glideItem.has(net.minecraft.core.component.DataComponents.GLIDER) && level.purpurConfig.elytraDamagePerTridentBoost > 0) {
                                      glideItem.hurtAndBreak(level.purpurConfig.elytraDamagePerTridentBoost, entity, enumitemslot);
 diff --git a/org/purpurmc/purpur/PurpurWorldConfig.java b/org/purpurmc/purpur/PurpurWorldConfig.java
-index 994fb2685bde4fcaedd5d055e47ac4156d6977d3..e51742b3531e6b632f90275e455c39001c078212 100644
+index 6ee04e7cef3489096b2fd3c5ee81830bc01fca71..01902b84a2546e8af60a3e5c7df3bffac7dbae2e 100644
 --- a/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -2623,6 +2623,13 @@ public class PurpurWorldConfig {
+@@ -2678,6 +2678,13 @@ public class PurpurWorldConfig {
          }
          piglinTakeDamageFromWater = getBoolean("mobs.piglin.takes-damage-from-water", piglinTakeDamageFromWater);
          piglinPortalSpawnModifier = getInt("mobs.piglin.portal-spawn-modifier", piglinPortalSpawnModifier);
@@ -150,16 +111,3 @@ index 994fb2685bde4fcaedd5d055e47ac4156d6977d3..e51742b3531e6b632f90275e455c3900
          piglinAlwaysDropExp = getBoolean("mobs.piglin.always-drop-exp", piglinAlwaysDropExp);
          piglinHeadVisibilityPercent = getDouble("mobs.piglin.head-visibility-percent", piglinHeadVisibilityPercent);
          piglinIgnoresArmorWithGoldTrim = getBoolean("mobs.piglin.ignores-armor-with-gold-trim", piglinIgnoresArmorWithGoldTrim);
-diff --git a/org/purpurmc/purpur/controller/WaterMoveControllerWASD.java b/org/purpurmc/purpur/controller/WaterMoveControllerWASD.java
-index 28b790cb69b9fb722d0fd7c64b7d60719ea4f856..4cc821609cfe3bccfd4b04eb5afcfd6c83f8cc59 100644
---- a/org/purpurmc/purpur/controller/WaterMoveControllerWASD.java
-+++ b/org/purpurmc/purpur/controller/WaterMoveControllerWASD.java
-@@ -36,7 +36,7 @@ public class WaterMoveControllerWASD<T extends Mob> extends MoveControllerWASD<T
-             vertical = 0.0F;
-         }
- 
--        if (rider.jumping && spacebarEvent(entity)) {
-+        if (rider.isJumping() && spacebarEvent(entity)) { // Leaf - fix build
-             entity.onSpacebar();
-         }
- 

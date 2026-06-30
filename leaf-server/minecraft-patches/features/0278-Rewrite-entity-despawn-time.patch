@@ -97,10 +97,10 @@ index 40ad8b54fb0c8fb7e9a94acfa4b9e914e64896ad..ac0aa678fd301de0cf32e038faff33cb
  
          private final ChunkEntitySlices[] slices = new ChunkEntitySlices[REGION_SIZE * REGION_SIZE];
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index db4b8cec257c46f1562de6b6566ab47a7e69537a..5745b289556e54a2f77203416c0c990ab7c41848 100644
+index 862a9b2cc7d24729bf84a77770512f0715833fed..4760f204e0ea1bd9acfd324a0d1490826dbaf75d 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -1133,6 +1133,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1130,6 +1130,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          this.debugSynchronizers.tick(this.server.debugSubscribers());
          profiler.pop();
          this.environmentAttributes().invalidateTickCache();
@@ -108,7 +108,7 @@ index db4b8cec257c46f1562de6b6566ab47a7e69537a..5745b289556e54a2f77203416c0c990a
          if (org.dreeam.leaf.config.modules.async.MultithreadedTracker.enabled) { this.leaf$asyncTracker.onEntitiesTickEnd(); } // Leaf - Multithreaded tracker
      }
  
-@@ -1662,6 +1663,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1659,6 +1660,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          } else {entity.inactiveTick();} // Paper - EAR 2
          profiler.pop();
  
@@ -117,7 +117,7 @@ index db4b8cec257c46f1562de6b6566ab47a7e69537a..5745b289556e54a2f77203416c0c990a
          for (Entity passenger : entity.getPassengers()) {
              this.tickPassenger(entity, passenger, isActive); // Paper - EAR 2
          }
-@@ -1690,6 +1693,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1687,6 +1690,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              // Paper end - EAR 2
              profiler.pop();
  
@@ -127,7 +127,7 @@ index db4b8cec257c46f1562de6b6566ab47a7e69537a..5745b289556e54a2f77203416c0c990a
                  this.tickPassenger(entity, passenger, isActive); // Paper - EAR 2
              }
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index dc7ed7a80e49037b25713ca51d77010f99bce9c4..68e446fbaf0eb78aba54e12aa411fa41297896fe 100644
+index 77d051450174cc7b1d549ca34c4ac38523f4c8fc..66e9009819abb9135d87365d4b17e2871f967613 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
 @@ -382,12 +382,14 @@ public abstract class Entity

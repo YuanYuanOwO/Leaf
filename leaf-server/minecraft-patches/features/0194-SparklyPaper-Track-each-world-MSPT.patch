@@ -27,10 +27,10 @@ index 0bd82f3e378f7408ae029ae3b68a6273927d605b..6040745fc27ada69cf30cd74b919e0bc
              CrashReport report = CrashReport.forThrowable(t, "Exception ticking world");
              level.fillReportDetails(report);
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index 6febf3cd854ecd9275d405b4ad42c7e68731eaa1..4e2fd1372b1a5c8023583acb67fef69deb6e8a7f 100644
+index 75cb41838d37863fbd905256db9c76e8459fcf17..a90d4d6b73ffe89ac40640387dbe039fd0f971e0 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -616,6 +616,12 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -614,6 +614,12 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      }
      // Paper end - chunk tick iteration
  
