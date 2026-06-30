@@ -36,7 +36,7 @@ index f94cf5bf55e6e4a4755bd27bec7512d11b846045..f0679766303c265a719cef015f7420fd
      protected Brain<Allay> makeBrain(final Brain.Packed packedBrain) {
          return BRAIN_PROVIDER.makeBrain(this, packedBrain);
 diff --git a/net/minecraft/world/entity/animal/camel/Camel.java b/net/minecraft/world/entity/animal/camel/Camel.java
-index ed5f2e0213a3f5e2815c3fb026cc9304f91a3f0e..179696477b5fc707e8b683286e666a7be678d8db 100644
+index ed5f2e0213a3f5e2815c3fb026cc9304f91a3f0e..06e476af5a56332cbe3fb77fbae5bfcf99823fd8 100644
 --- a/net/minecraft/world/entity/animal/camel/Camel.java
 +++ b/net/minecraft/world/entity/animal/camel/Camel.java
 @@ -114,6 +114,18 @@ public class Camel extends AbstractHorse {
@@ -50,7 +50,7 @@ index ed5f2e0213a3f5e2815c3fb026cc9304f91a3f0e..179696477b5fc707e8b683286e666a7b
 +    }
 +
 +    @Override
-+    public boolean isAlwaysExperienceDropper() {
++    protected boolean isAlwaysExperienceDropper() {
 +        return level().purpurConfig.camelAlwaysDropExp;
 +    }
 +    // Leaf start - Plazma - Add missing purpur configuration options
