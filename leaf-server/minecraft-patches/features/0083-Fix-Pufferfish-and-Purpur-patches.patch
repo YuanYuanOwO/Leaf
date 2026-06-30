@@ -3,7 +3,6 @@ From: Dreeam <61569423+Dreeam-qwq@users.noreply.github.com>
 Date: Mon, 29 Apr 2024 14:18:58 -0400
 Subject: [PATCH] Fix Pufferfish and Purpur patches
 
-Co-authored-by: OverwriteMC <artyom030803@gmail.com>
 
 diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
 index a364f7414bfd38f27087e96530d3983ba8a13a26..2184fc2daec0688872f212e4ccdf9ddfc7d85562 100644
